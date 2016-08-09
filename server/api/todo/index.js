@@ -1,9 +1,12 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./todo.controller');
 
 var router = express.Router();
+
+require('./../../mocks').configureTodoMock()
+
+var controller = require('./todo.controller');
 
 router.get('/', controller.index);
 router.get('/:id', controller.show);
