@@ -69,7 +69,7 @@ angular.module('todolistApp')
     };
 
     $scope.revertEdits = function (todo) {
-      $scope.todos[todos.indexOf(todo)] = $scope.todoUnderEdit;
+      $scope.todos[$scope.todos.indexOf(todo)] = $scope.todoUnderEdit;
       $scope.editedTodo = null;
       $scope.todoUnderEdit = null;
       $scope.reverted = true;
