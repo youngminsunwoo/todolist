@@ -13,6 +13,7 @@ exports.index = function(req, res) {
 
 // Get a single todo
 exports.show = function(req, res) {
+  if (!handleObjectId(req, res)) return;
   Todo.findById(req.params.id, function (err, todo) {
     if(err) { return handleError(res, err); }
     if(!todo) { return res.status(404).send('Not Found'); }
@@ -31,7 +32,8 @@ exports.create = function(req, res) {
 // Updates an existing todo in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
-  Todo.findById(req.params.id, function (err, todo) {
+  if (!handleObjectId(req, res)) return;
+  Todo.findById(req.params.id.toString(), function (err, todo) {
     if (err) { return handleError(res, err); }
     if(!todo) { return res.status(404).send('Not Found'); }
     var updated = _.merge(todo, req.body);
@@ -44,6 +46,7 @@ exports.update = function(req, res) {
 
 // Deletes a todo from the DB.
 exports.destroy = function(req, res) {
+  if (!handleObjectId(req, res)) return;
   Todo.findById(req.params.id, function (err, todo) {
     if(err) { return handleError(res, err); }
     if(!todo) { return res.status(404).send('Not Found'); }
@@ -56,4 +59,13 @@ exports.destroy = function(req, res) {
 
 function handleError(res, err) {
   return res.status(500).send(err);
+}
+
+function handleObjectId(req, res) {
+  // check if it is a valid ObjectID to prevent cast error
+  if (!req.params || !req.params.id || !req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    res.status(400).send('not a valid mongo object id');
+    return false;
+  }
+  return true;
 }
