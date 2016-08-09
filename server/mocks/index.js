@@ -1,6 +1,6 @@
 // This is for the purpose of mocking the mongoose module methods so as to mock the mongo backend
 module.exports = {
-  configureTodoMock: function(){
+  mockMongo: function(){
     if (process.env.NODE_ENV === 'development') {
       var proxyquire = require('proxyquire');
       proxyquire('../api/todo/todo.controller', {

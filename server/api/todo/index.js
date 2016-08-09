@@ -4,8 +4,6 @@ var express = require('express');
 
 var router = express.Router();
 
-require('./../../mocks').configureTodoMock()
-
 var controller = require('./todo.controller');
 
 router.get('/', controller.index);
