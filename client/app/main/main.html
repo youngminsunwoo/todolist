@@ -1,28 +1,43 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
+<section id="todoapp" class="todoapp">
 
-<header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
-  </div>
-</header>
+  <header id="header" class="header">
+    <h1>todos</h1>
+    <form id="todo-form" class="todo-form" ng-submit="addTodo()">
+      <input id="new-todo" class="new-todo" placeholder="What needs to be done?" ng-model="newTodo" ng-disabled="saving" autofocus>
+    </form>
+  </header>
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="todo in todos">
-        <li><a href="#">{{todo.title}}</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
+  <section id="main" class="main" ng-show="todos.length" ng-cloak>
 
-<footer class="footer">
-  <div class="container">
-      <p>Angular Fullstack v2.1.1 |
-        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
-  </div>
-</footer>
+    <ul id="todo-list" class="todo-list">
+      <li ng-repeat="todo in filterByStatus(todos) track by $index" ng-class="{completed: todo.completed, editing: todo == editedTodo}">
+        <div class="view">
+          <input class="toggle" type="checkbox" ng-model="todo.completed" ng-change="toggleCompleted(todo)">
+          <label ng-dblclick="editTodo(todo)">{{todo.title}}</label>
+          <button class="destroy" ng-click="removeTodo(todo)"></button>
+        </div>
+        <form ng-submit="saveEdits(todo, 'submit')">
+          <input class="edit" ng-trim="false" ng-model="todo.title" todo-escape="revertEdits(todo)" ng-blur="saveEdits(todo, 'blur')" todo-focus="todo == editedTodo">
+        </form>
+      </li>
+    </ul>
+  </section>
+
+  <footer id="footer" class="footer" ng-show="todos.length" ng-cloak>
+            <span id="todo-count" class="todo-count"><strong>{{remainingCount}}</strong>
+              <ng-pluralize count="remainingCount" when="{ one: 'item left', other: 'items left' }"></ng-pluralize>
+            </span>
+    <ul id="filters" class="filters">
+      <li>
+        <a ng-class="{selected: status == ''} " ng-click="setStatusFilter('all')">All</a>
+      </li>
+      <li>
+        <a ng-class="{selected: status == 'active'}" ng-click="setStatusFilter('active')">Active</a>
+      </li>
+      <li>
+        <a ng-class="{selected: status == 'completed'}" ng-click="setStatusFilter('completed')">Completed</a>
+      </li>
+    </ul>
+    <button id="clear-completed" ng-click="clearCompletedTodos()" ng-show="completedCount">Clear completed</button>
+  </footer>
+</section>
