@@ -37,6 +37,54 @@ describe('POST /api/todos', function() {
   });
 });
 
+describe('GET /api/todos/:id', function() {
+  var todoId;
+  beforeEach(function createObjectToUpdate(done) {
+    request(app)
+      .post('/api/todos')
+      .send({title: 'learn about endpoint/server side testing', completed: false})
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .end(function (err, res) {
+        if (err) return done(err);
+        todoId = res.body._id;
+        done();
+      });
+  });
+  it('should update the todo', function (done) {
+    request(app)
+      .get('/api/todos/' + todoId)
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function (err, res) {
+        if (err) return done(err);
+        res.body._id.should.equal(todoId);
+        res.body.title.should.equal('learn about endpoint/server side testing');
+        res.body.completed.should.equal(false);
+        done();
+      });
+  });
+  it('should return 404 for valid mongo object id that does not exist', function(done){
+    request(app)
+      .get('/api/todos/' + 'abcdef0123456789ABCDEF01')
+      .expect(404)
+      .end(function(err, res) {
+        if (err) return done(err);
+        done();
+      });
+  });
+  it('should return 400 for invalid object ids', function(done){
+    request(app)
+      .get('/api/todos/' + 123)
+      .expect(400)
+      .end(function(err, res) {
+        if (err) return done(err);
+        res.text.should.equal('not a valid mongo object id')
+        done();
+      });
+  });
+});
+
 describe('PUT /api/todos/:id', function() {
   var todoId;
   beforeEach(function createObjectToUpdate(done){
@@ -82,6 +130,7 @@ describe('PUT /api/todos/:id', function() {
       .expect(400)
       .end(function(err, res) {
         if (err) return done(err);
+        res.text.should.equal('not a valid mongo object id')
         done();
       });
   });
@@ -126,6 +175,7 @@ describe('DELETE /api/todos/:id', function() {
       .expect(400)
       .end(function(err, res) {
         if (err) return done(err);
+        res.text.should.equal('not a valid mongo object id')
         done();
       });
   });
