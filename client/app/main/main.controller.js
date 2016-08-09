@@ -27,7 +27,13 @@ angular.module('todolistApp')
         return;
       }
       $http.delete('/api/todos/' + todo._id).success(function () {
-        var i = $scope.todos.indexOf(todo);
+        var i = -1;
+        $scope.todos.some(function(t,ind){
+          if (t._id === todo._id) {
+            i = ind;
+            return true; // breaks the some loop
+          }
+        });
         if (i > -1) {
           $scope.todos.splice(i, 1);
         }
@@ -69,7 +75,18 @@ angular.module('todolistApp')
     };
 
     $scope.revertEdits = function (todo) {
-      $scope.todos[$scope.todos.indexOf(todo)] = $scope.todoUnderEdit;
+      var i = -1;
+
+      $scope.todos.some(function(t,ind){
+        if (t._id === todo._id) {
+          i = ind;
+          return true; // breaks the some loop
+        }
+      });
+
+      if (i > -1) {
+        $scope.todos[i] = $scope.todoUnderEdit;
+      }
       $scope.editedTodo = null;
       $scope.todoUnderEdit = null;
       $scope.reverted = true;
