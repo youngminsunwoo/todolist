@@ -18,7 +18,7 @@ angular.module('todolistApp')
       if (!todo) {
         return;
       }
-      $http.put('/api/todos/' + todo._id, todo)
+      $http.put('/api/todos/' + todo._id, todo);
     };
 
     $scope.removeTodo = function (todo) {
@@ -27,7 +27,7 @@ angular.module('todolistApp')
         return;
       }
       $http.delete('/api/todos/' + todo._id).success(function () {
-        var i = $scope.todos.indexOf(todo)
+        var i = $scope.todos.indexOf(todo);
         if (i > -1) {
           $scope.todos.splice(i, 1);
         }
@@ -69,7 +69,7 @@ angular.module('todolistApp')
     };
 
     $scope.revertEdits = function (todo) {
-      todos[todos.indexOf(todo)] = $scope.todoUnderEdit;
+      $scope.todos[todos.indexOf(todo)] = $scope.todoUnderEdit;
       $scope.editedTodo = null;
       $scope.todoUnderEdit = null;
       $scope.reverted = true;
@@ -84,14 +84,14 @@ angular.module('todolistApp')
           return true;
         }
         if ($scope.statusFilter === 'active' && !todo.completed) {
-          return true
+          return true;
         }
       });
       return filtererTodos;
     };
 
     $scope.setStatusFilter = function (newStatus) {
-      $scope.statusFilter = newStatus === 'all' || newStatus === 'completed' || newStatus === 'active' ? newStatus : 'all'
+      $scope.statusFilter = newStatus === 'all' || newStatus === 'completed' || newStatus === 'active' ? newStatus : 'all';
     };
 
     $scope.todos = [];
