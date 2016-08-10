@@ -2,16 +2,17 @@
 FROM ubuntu:14.04
 MAINTAINER Donal Spring <donal@uk.ibm.com> William Lacy <williamlacy@uk.ibm.com>
 
-#2. Setup the core os packages
+#1. Setup the core os packages
 RUN apt-get update
 RUN apt-get -y upgrade
 RUN apt-get install -y \
 	curl \
-	git \
 	jq \
 	wget \
+	software-properties-common \
 	openssh-server \
-	software-properties-common
+	git 
+	
 RUN ln -sf /bin/bash /bin/sh
 
 #2. Setup the sshd
@@ -26,15 +27,15 @@ EXPOSE 22
 
 #3. Add user jenkins to the image
 # password is jenkins
-RUN useradd --uid=1099 -p dW7IzpQGfPQtY -ms /bin/bash jenkins
+RUN useradd -p dW7IzpQGfPQtY -ms /bin/bash jenkins
 ENV JENKINS_HOME /home/jenkins
-RUN mkdir -p ${JENKINS_HOME}/.ssh
-RUN chown -R jenkins:jenkins ${JENKINS_HOME}
+RUN mkdir -p ${JENKINS_HOME}/.ssh && \
+	chown -R jenkins:jenkins ${JENKINS_HOME}
 
 
 #4. ensure git config is setup
-RUN git config --global user.email "jenkins@jenkins.ci"
-RUN git config --global user.name "jenkins"
+RUN su jenkins -c "git config --global user.email 'jenkins@jenkins.ci'" && \
+	su jenkins -c "git config --global user.name 'jenkins'"
 
 
 #5. Install nodejs and deps for builds
