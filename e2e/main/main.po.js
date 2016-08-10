@@ -6,9 +6,11 @@
 'use strict';
 
 var MainPage = function() {
-  this.heroEl = element(by.css('.hero-unit'));
-  this.h1El = this.heroEl.element(by.css('h1'));
-  this.imgEl = this.heroEl.element(by.css('img'));
+  this.headerEl = element(by.css('header'));
+  this.h1El = this.headerEl.element(by.css('h1'));
+  this.newToDoFormEl = element(by.css('.todo-form'));
+  this.newToDoInputEl = this.newToDoFormEl.element(by.css('.new-todo'));
+  this.todoEls = element.all(by.repeater('todo in filterByStatus(todos)'))
 };
 
 module.exports = new MainPage();
