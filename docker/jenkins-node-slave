@@ -1,0 +1,51 @@
+#jenkins-node-slave
+FROM ubuntu:14.04
+MAINTAINER Donal Spring <donal@uk.ibm.com> William Lacy <williamlacy@uk.ibm.com>
+
+#2. Setup the core os packages
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN apt-get install -y \
+	curl \
+	git \
+	jq \
+	wget \
+	openssh-server \
+	software-properties-common
+RUN ln -sf /bin/bash /bin/sh
+
+#2. Setup the sshd
+RUN mkdir /var/run/sshd
+RUN echo 'root:83BvY4UfnWO' | chpasswd
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+EXPOSE 22
+
+#3. Add user jenkins to the image
+# password is jenkins
+RUN useradd --uid=1099 -p dW7IzpQGfPQtY -ms /bin/bash jenkins
+ENV JENKINS_HOME /home/jenkins
+RUN mkdir -p ${JENKINS_HOME}/.ssh
+RUN chown -R jenkins:jenkins ${JENKINS_HOME}
+
+
+#4. ensure git config is setup
+RUN git config --global user.email "jenkins@jenkins.ci"
+RUN git config --global user.name "jenkins"
+
+
+#5. Install nodejs and deps for builds
+RUN curl -sL https://deb.nodesource.com/setup_4.x | bash
+RUN apt-get install -y nodejs libfontconfig
+RUN npm install -g grunt-cli grunt bower npm-cache istanbul
+
+
+#6. Install Bluemix tools [ just incase ;) ] 
+RUN wget http://go-cli.s3-website-us-east-1.amazonaws.com/releases/v6.12.4/cf-cli_amd64.deb
+RUN dpkg -i cf-cli_amd64.deb
+
+
+CMD ["/usr/sbin/sshd", "-D"]
