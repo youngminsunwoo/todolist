@@ -47,6 +47,7 @@ describe('Main View', function () {
         page.newToDoInputEl.sendKeys('Learn another language');
         page.newToDoInputEl.sendKeys(protractor.Key.ENTER);
       });
+
       it('should remove the new todo', function (done) {
 
         todoElToRemove = page.todoEls.get(0);
@@ -56,6 +57,30 @@ describe('Main View', function () {
           done();
         });
 
+      });
+    });
+
+    describe('on toggling todo complete status',function(){
+      var incompleteTodoEl, completeTodoEl;
+      beforeEach(function(){
+        page.newToDoInputEl.sendKeys('Attend a DevOps course');
+        page.newToDoInputEl.sendKeys(protractor.Key.ENTER);
+        completeTodoEl = page.todoEls.get(0);
+        completeTodoEl.element(by.css('.toggle')).click(); // toggle already complete
+        page.newToDoInputEl.sendKeys('Learn some protractor');
+        page.newToDoInputEl.sendKeys(protractor.Key.ENTER);
+        incompleteTodoEl = page.todoEls.get(1);
+      });
+      it('should add the class completed to todo when toggled from incomplete to complete',function(){
+        // this expectation checks that the class attribute has a value that contains 'complete'
+        expect(completeTodoEl.getAttribute('class')).toMatch('complete');
+        completeTodoEl.element(by.css('.toggle')).click();
+        expect(completeTodoEl.getAttribute('class')).not.toMatch('complete');
+      });
+      it('should remove the class completed when toggled from complete to incomplete',function(){
+        expect(incompleteTodoEl.getAttribute('class')).not.toMatch('complete');
+        incompleteTodoEl.element(by.css('.toggle')).click();
+        expect(incompleteTodoEl.getAttribute('class')).toMatch('complete');
       });
     });
 
