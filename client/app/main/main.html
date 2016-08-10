@@ -30,13 +30,13 @@
             </span>
     <ul id="filters" class="filters">
       <li>
-        <a ng-class="{selected: status == ''} " ng-click="setStatusFilter('all')">All</a>
+        <a class="do-all" ng-class="{selected: status == ''} " ng-click="setStatusFilter('all')">All</a>
       </li>
       <li>
-        <a ng-class="{selected: status == 'active'}" ng-click="setStatusFilter('active')">Active</a>
+        <a class="do-active" ng-class="{selected: status == 'active'}" ng-click="setStatusFilter('active')">Active</a>
       </li>
       <li>
-        <a ng-class="{selected: status == 'completed'}" ng-click="setStatusFilter('completed')">Completed</a>
+        <a class="do-completed" ng-class="{selected: status == 'completed'}" ng-click="setStatusFilter('completed')">Completed</a>
       </li>
     </ul>
     <button id="clear-completed" ng-click="clearCompletedTodos()" ng-show="completedCount">Clear completed</button>
