@@ -368,6 +368,7 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>',
           src: [
             'package.json',
+            'Dockerfile',
             'server/**/*'
           ]
         }]
@@ -457,6 +458,12 @@ module.exports = function (grunt) {
     env: {
       test: {
         NODE_ENV: 'test'
+      },
+      ci: {
+        NODE_ENV: 'ci'
+      },
+      si: {
+        NODE_ENV: 'si'
       },
       prod: {
         NODE_ENV: 'production'
@@ -602,11 +609,12 @@ module.exports = function (grunt) {
     grunt.task.run(['serve']);
   });
 
-  grunt.registerTask('test', function(target) {
+  grunt.registerTask('test', function(target, environ) {
+    environ = environ !== undefined ? environ : 'test';
     if (target === 'server') {
       return grunt.task.run([
         'env:all',
-        'env:test',
+        'env:'+environ,
         'mochaTest'
       ]);
     }
