@@ -21,12 +21,12 @@ module.exports = {
             callback(null,todo);
           },
           find: function (callback) {
-            console.info('stubbed: find')
+            console.info('stubbed: find');
             callback(null, [{title: 'hello', _id: 'abcdef1234567890abcdef12', completed: false}, {title: 'hello again', _id: 'abcdef1234567890abcdef13', completed: false}]);
           },
           create: function (todo, callback) {
-            console.info('stubbed: create')
-            callback(null, todo)
+            console.info('stubbed: create');
+            callback(null, todo);
           },
           remove: function (callback) {
             callback(null);

@@ -172,7 +172,15 @@ label[for='toggle-all'] {
   color: #737373;
 }
 
-.todo-list {
+.todo-list .loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -34px; /* -1 * image width / 2 */
+  margin-top: 90px; /* -1 * image height / 2 */
+}
+
+.todo-list ul {
   margin: 0;
   padding: 0;
   list-style: none;

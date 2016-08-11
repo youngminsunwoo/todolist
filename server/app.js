@@ -26,7 +26,13 @@ if(config.seedDB) { require('./config/seed'); }
 var app = express();
 var server = require('http').createServer(app);
 require('./config/express')(app);
-require('./routes')(app);
+
+if (config.mocks && config.mocks.api) {
+  //add stubs
+  require('./mocks/mock-routes')(app);
+} else {
+  require('./routes')(app);
+}
 
 // Start server
 server.listen(config.port, config.ip, function () {

@@ -53,7 +53,7 @@ module.exports = _.merge(
   require('./' + process.env.NODE_ENV + '.js') || {});
 
 if (module.exports.mocks && module.exports.mocks.mongo) {
-  var mocks = require('./../../mocks');
-  console.info(mocks)
+  var mocks = require('./../../mocks/mock-mongo');
+  console.info(mocks);
   mocks.mockMongo();
 }

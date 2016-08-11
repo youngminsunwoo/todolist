@@ -113,9 +113,10 @@ angular.module('todolistApp')
 
     $scope.todos = [];
     $scope.setStatusFilter('all');
-
+    $scope.loadingTodos = true;
     $http.get('/api/todos').success(function (todos) {
       $scope.todos = todos;
+      $scope.loadingTodos = false;
     });
 
   });
