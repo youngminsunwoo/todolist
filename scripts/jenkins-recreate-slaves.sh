@@ -26,7 +26,7 @@ for slave in `docker ps -a | grep "${image_name}-" | awk -F' ' '{ print $1 }'`
     docker rm $slave
  done
 
-port=$((template_port+1))
+port=$((template_port))
 while [ $port -le $((template_port+number_of_slaves)) ]
  do
    echo "running docker container ${image_name}-${port}"

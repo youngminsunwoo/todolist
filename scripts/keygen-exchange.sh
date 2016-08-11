@@ -3,12 +3,21 @@
 # exchanges them with the local git server
 
 
-cd /var/lib/jenkins
+HOME=${1}
+USER=${2}
+
+if [[ -z ${HOME} || -z ${USER} ]];then 
+	echo "Using defaults HOME=/var/lib/jenkins & USER=jenkins"
+	HOME="/var/lib/jenkins"
+	USER="jenkins"
+fi
+
+cd ${HOME}
 
 mkdir -p .ssh
 chmod 700 .ssh
-ssh-keygen -f .ssh/jenkins_rsa -t rsa -N ''
-chown -R jenkins:jenkins .ssh
+ssh-keygen -f .ssh/${USER}_rsa -t rsa -N ''
+chown -R ${USER}:${USER} .ssh
 
-PUB_KEY=`cat .ssh/jenkins_rsa.pub`
+PUB_KEY=`cat .ssh/${USER}_rsa.pub`
 su git -c "echo ${PUB_KEY} >> ~/.ssh/authorized_keys"
