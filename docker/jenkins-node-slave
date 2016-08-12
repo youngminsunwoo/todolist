@@ -1,6 +1,6 @@
 #jenkins-node-slave
 FROM ubuntu:14.04
-MAINTAINER Donal Spring <donal@uk.ibm.com> William Lacy <williamlacy@uk.ibm.com>
+MAINTAINER Donal Sing <donal@uk.ibm.com> William Lacy <williamlacy@uk.ibm.com>
 
 #1. Setup the core os packages
 RUN apt-get update
