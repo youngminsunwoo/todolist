@@ -16,7 +16,7 @@ cd ${HOME}
 
 mkdir -p .ssh
 chmod 700 .ssh
-ssh-keygen -f .ssh/${USER}_rsa -t rsa -N ''
+ssh-keygen -f .ssh/id_rsa -t rsa -N ''
 chown -R ${USER}:${USER} .ssh
 
 PUB_KEY=`cat .ssh/${USER}_rsa.pub`
