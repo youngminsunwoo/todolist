@@ -571,6 +571,38 @@ module.exports = function (grunt) {
     this.async();
   });
 
+  grunt.registerTask('deploy', 'deploy the node js app to a docker container and start it in the correct mode', function(target_env) {
+    grunt.log.ok('this task must run on a host that has the Docker Daemon running on it');
+    var ports = {
+      ci: '9001',
+      si: '9002',
+      production: '80'
+    };
+
+
+    if (target_env === undefined){
+      grunt.log.error('Required param not set - use grunt deploy\:\<target\>');
+    } else {
+      var shell = require("shelljs");
+      grunt.log.ok('BUILDING');
+      shell.exec('docker build -t todo-app:' + shell.env['JOB_NAME'] + '.' + shell.env['BUILD_NUMBER'] + ' -f ./dist/Dockerfile ./dist');
+
+      grunt.log.ok('STOPPING AND REMOVING');
+      shell.exec('docker stop todo-app-'+ target_env + ' && docker rm todo-app-'+ target_env);
+
+      grunt.log.ok('DEPLOYING ' + target_env + ' container');
+      if (target_env === 'ci'){
+        shell.exec('docker run -t -d --name todo-app-' + target_env + ' -p ' + ports[target_env]+ ':9000 --env NODE_ENV=' + target_env + ' todo-app');
+      } else {
+        grunt.log.ok('DEPLOYING Mongodb container first');
+        // ensure mongo is up
+        shell.exec('docker run --name devops-mongo -d mongo');
+        shell.exec('docker run -t -d --name todo-app-' + target_env + ' --link devops-mongo:mongo -p ' + ports[target_env]+ ':9000 --env NODE_ENV=' + target_env + ' todo-app');
+      }
+    }
+
+  });
+
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'env:all', 'env:prod', 'express:prod', 'wait', 'open', 'express-keepalive']);
