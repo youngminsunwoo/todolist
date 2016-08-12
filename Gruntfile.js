@@ -598,7 +598,7 @@ module.exports = function (grunt) {
       } else {
         grunt.log.ok('DEPLOYING Mongodb CONTAINER FIRST');
         // ensure mongo is up
-        shell.exec('docker run --name devops-mongo -d mongo');
+        shell.exec('docker run --name devops-mongo -p 27017:27017 -d mongo');
         shell.exec('docker run -t -d --name todo-app-' + target_env + ' --link devops-mongo:mongo -p ' + ports[target_env]+ ':9000 --env NODE_ENV=' + target_env + ' todo-app:'  + build_tag);
       }
     }
