@@ -575,7 +575,6 @@ module.exports = function (grunt) {
     var shell = require("shelljs");
     grunt.log.ok('BUILDING IMAGE');
     var rc = shell.exec('docker build -t todo-app:' + shell.env['JOB_NAME'] + '.' + shell.env['BUILD_NUMBER'] + ' -f ./dist/Dockerfile ./dist').code;
-    grunt.log.ok('RC - '+rc);
     if (rc > 0){
       grunt.log.error("DOCKER FAILURE")
     }
@@ -598,15 +597,19 @@ module.exports = function (grunt) {
 
       grunt.log.ok('DEPLOYING ' + target_env + ' CONTAINER');
       if (target_env === 'ci'){
-        shell.exec('docker run -t -d --name todo-app-' + target_env + ' -p ' + ports[target_env]+ ':9000 --env NODE_ENV=' + target_env + ' todo-app:' + build_tag);
+        var rc = shell.exec('docker run -t -d --name todo-app-' + target_env + ' -p ' + ports[target_env]+ ':9000 --env NODE_ENV=' + target_env + ' todo-app:' + build_tag);
+        if (rc > 0){
+          grunt.log.error("DOCKER FAILURE")
+        }
       } else {
-        grunt.log.ok('DEPLOYING Mongodb CONTAINER FIRST');
         // ensure mongo is up
-        shell.exec('docker run --name devops-mongo -p 27017:27017 -d mongo');
+        var isMongo = shell.exec('docker ps | grep devops-mongo').code;
+        if (isMongo > 0){
+          grunt.log.ok('DEPLOYING Mongodb CONTAINER FIRST');
+          shell.exec('docker run --name devops-mongo -p 27017:27017 -d mongo');
+        }
         var rc = shell.exec('docker run -t -d --name todo-app-' + target_env + ' --link devops-mongo:mongo -p '
               + ports[target_env]+ ':9000 --env NODE_ENV=' + target_env + ' todo-app:'  + build_tag).code;
-        grunt.log.ok('RC - '+rc);
-
         if (rc > 0){
           grunt.log.error("DOCKER FAILURE")
         }
