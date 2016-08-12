@@ -19,5 +19,5 @@ chmod 700 .ssh
 ssh-keygen -f .ssh/id_rsa -t rsa -N ''
 chown -R ${USER}:${USER} .ssh
 
-PUB_KEY=`cat .ssh/${USER}_rsa.pub`
+PUB_KEY=`cat .ssh/id_rsa.pub`
 su git -c "echo ${PUB_KEY} >> ~/.ssh/authorized_keys"
