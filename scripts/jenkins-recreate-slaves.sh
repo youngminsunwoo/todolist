@@ -40,6 +40,9 @@ while [ ${port} -le $((template_port+number_of_slaves)) ]
    echo "running docker container ${image_name}-${port}"
    docker run -p ${port}:22 -t -i -d --name ${image_name}-${port} \
     	--add-host="docker.host:${docker_host}" \
+    	--add-host="git.server:${docker_host}" \
+    	--add-host="mongo.server:${docker_host}" \
+    	--add-host="jenkins.server:${docker_host}" \
     	${image_name}
    		port=$((port+1))
  done
