@@ -5,7 +5,7 @@
 module.exports = {
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/todolist-test'
+    uri: 'mongodb://docker.local/todolist-ci'
   },
   seedDB: true
 };
