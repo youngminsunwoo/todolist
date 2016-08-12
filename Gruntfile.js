@@ -571,10 +571,14 @@ module.exports = function (grunt) {
     this.async();
   });
 
-  grunt.registerTask('build-image', 'Keep grunt running', function() {
+  grunt.registerTask('build-image', 'Build the image', function() {
     var shell = require("shelljs");
     grunt.log.ok('BUILDING IMAGE');
-    shell.exec('docker build -t todo-app:' + shell.env['JOB_NAME'] + '.' + shell.env['BUILD_NUMBER'] + ' -f ./dist/Dockerfile ./dist');
+    var rc = shell.exec('docker build -t todo-app:' + shell.env['JOB_NAME'] + '.' + shell.env['BUILD_NUMBER'] + ' -f ./dist/Dockerfile ./dist').code;
+    grunt.log.ok('RC - '+rc);
+    if (rc > 0){
+      grunt.log.error("DOCKER FAILURE")
+    }
   });
 
   grunt.registerTask('deploy', 'deploy the node js app to a docker container and start it in the correct mode', function(target_env, build_tag) {
@@ -589,7 +593,7 @@ module.exports = function (grunt) {
       grunt.log.error('Required param not set - use grunt deploy\:\<target\>\:\<tag\>');
     } else {
       var shell = require("shelljs");
-       grunt.log.ok('STOPPING AND REMOVING EXISTING CONTAINERS');
+      grunt.log.ok('STOPPING AND REMOVING EXISTING CONTAINERS');
       shell.exec('docker stop todo-app-'+ target_env + ' && docker rm todo-app-'+ target_env);
 
       grunt.log.ok('DEPLOYING ' + target_env + ' CONTAINER');
@@ -599,7 +603,13 @@ module.exports = function (grunt) {
         grunt.log.ok('DEPLOYING Mongodb CONTAINER FIRST');
         // ensure mongo is up
         shell.exec('docker run --name devops-mongo -p 27017:27017 -d mongo');
-        shell.exec('docker run -t -d --name todo-app-' + target_env + ' --link devops-mongo:mongo -p ' + ports[target_env]+ ':9000 --env NODE_ENV=' + target_env + ' todo-app:'  + build_tag);
+        var rc = shell.exec('docker run -t -d --name todo-app-' + target_env + ' --link devops-mongo:mongo -p '
+              + ports[target_env]+ ':9000 --env NODE_ENV=' + target_env + ' todo-app:'  + build_tag).code;
+        grunt.log.ok('RC - '+rc);
+
+        if (rc > 0){
+          grunt.log.error("DOCKER FAILURE")
+        }
       }
     }
 
