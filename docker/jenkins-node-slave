@@ -30,12 +30,15 @@ EXPOSE 22
 RUN useradd -p dW7IzpQGfPQtY -ms /bin/bash jenkins
 ENV JENKINS_HOME /home/jenkins
 RUN mkdir -p ${JENKINS_HOME}/.ssh && \
-	chown -R jenkins:jenkins ${JENKINS_HOME}
+	chown -R jenkins:jenkins ${JENKINS_HOME} && \
+	chmod 700 ${JENKINS_HOME}/.ssh
 
 
 #4. ensure git config is setup
 RUN su jenkins -c "git config --global user.email 'jenkins@jenkins.ci'" && \
 	su jenkins -c "git config --global user.name 'jenkins'"
+COPY id_rsa ${JENKINS_HOME}/.ssh/.
+RUN chown -R jenkins:jenkins ${JENKINS_HOME}/.ssh/id_rsa && chmod 400 ${JENKINS_HOME}/.ssh/id_rsa
 
 
 #5. Install nodejs and deps for builds
