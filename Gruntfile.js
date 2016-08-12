@@ -571,10 +571,11 @@ module.exports = function (grunt) {
     this.async();
   });
 
-  grunt.registerTask('build-image', 'Build the image', function() {
+  grunt.registerTask('build-image', 'Build the image', function(imageId) {
     var shell = require("shelljs");
     grunt.log.ok('BUILDING IMAGE');
-    var rc = shell.exec('docker build -t todo-app:' + shell.env['JOB_NAME'] + '.' + shell.env['BUILD_NUMBER'] + ' -f ./dist/Dockerfile ./dist').code;
+    if (!imageId) grunt.log.error('must supply an imageId to build');
+    var rc = shell.exec('docker build -t todo-app:' + imageId + ' -f ./dist/Dockerfile ./dist').code;
     if (rc > 0){
       grunt.log.error("DOCKER FAILURE")
     }
