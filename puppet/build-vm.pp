@@ -99,7 +99,8 @@ user { 'jenkins' :
 } ->
 
 exec { 'gitconfig':
-	command => "su jenkins -c 'git config --global user.email \"jenkins@jenkins.ci\"'",
+	command => "git config --global user.email \"jenkins@jenkins.ci\" && git config --global user.name \"jenkins\"'",
+	user    => "jenkins"
 }
 
 exec { 'keygen':
