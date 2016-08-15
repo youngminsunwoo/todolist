@@ -14,7 +14,7 @@ if [[ -z ${env} || -z ${tag} ]]
 fi
 
 echo "DOCKER STOPPING CONTAINER " todo-app-${env}
-docker stop -f todo-app-${env} && rc=$?
+docker stop todo-app-${env} && rc=$?
 
 echo "\nDOCKER REMOVING CONTAINER " todo-app-${env}
 docker rm todo-app-${env} && rc=$?
