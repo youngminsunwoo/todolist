@@ -51,7 +51,7 @@ vcsrepo { "/home/${newuser}/.oh-my-zsh":
   ensure   => present,
   provider => git,
   source   => 'git://github.com/robbyrussell/oh-my-zsh.git',
-}->
+} ->
 
 file { "/home/${newuser}/.zshrc" :
 	source => ["/home/${newuser}/.oh-my-zsh/templates/zshrc.zsh-template"],
@@ -96,10 +96,10 @@ user { 'jenkins' :
 	ensure           => 'present',
 	gid				 			 => '5001',
 	groups           => ['devops-course', 'docker'], #TODO add docker group lab 5b
-}
+} ->
 
 exec { 'gitconfig':
-	command => "git config --global user.email 'jenkins@jenkins.ci' && git config --global user.name 'jenkins'",
+	command => "sudo -u jenkins /bin/bash -c 'git config --global user.email \"jenkins@jenkins.ci\" && git config --global user.name \"jenkins\"'",
 }
 
 exec { 'keygen':
