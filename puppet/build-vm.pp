@@ -91,3 +91,14 @@ package { ['jenkins']:
     require	=> [ Package['openjdk-7-jdk'], ],
 
 }
+
+user { 'jenkins' :
+	ensure           => 'present',
+	gid				 => '5001',
+	groups           => ['devops-course', 'docker', 'sudo'],
+}
+
+exec { 'keygen':
+	command => "/bin/bash -c 'sudo ../scripts/keygen-exchange.sh'",
+}
+

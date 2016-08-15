@@ -26,12 +26,23 @@ for slave in `docker ps -a | grep "${image_name}-" | awk -F' ' '{ print $1 }'`
     docker rm $slave
  done
 
-port=$((template_port+1))
-while [ $port -le $((template_port+number_of_slaves)) ]
+echo "determining the docker host net address from /etc/hosts"
+docker_host=$(cat /etc/hosts | egrep -o '^[[:space:]]*[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}[[:space:]]+docker.local[[:space:]]*$' | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
+
+if [[ -z ${docker_host} ]]
+ then echo 'ERROR docker host address not found in /etc/hosts'
+ exit 1
+fi
+
+port=$((template_port))
+while [ ${port} -le $((template_port+number_of_slaves)) ]
  do
    echo "running docker container ${image_name}-${port}"
    docker run -p ${port}:22 -t -i -d --name ${image_name}-${port} \
-    	--add-host='jenkins.master.pub:169.50.100.21' \
+    	--add-host="docker.host:${docker_host}" \
+    	--add-host="git.server:${docker_host}" \
+    	--add-host="mongo.server:${docker_host}" \
+    	--add-host="jenkins.server:${docker_host}" \
     	${image_name}
    		port=$((port+1))
  done
