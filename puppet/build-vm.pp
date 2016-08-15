@@ -8,45 +8,45 @@ $newuser = 'donal'
 
 # new user and group for attendee
 group { 'devops-course':
-	ensure => 'present',
-	gid    => '5001',
+  ensure => 'present',
+  gid    => '5001',
 }
 
 user { "${newuser}" :
-	ensure           => 'present',
-	gid				 => '5001',
-	groups           => ['devops-course', 'docker', 'sudo'],
-	home             => "/home/${newuser}",
-	password         => '$1$VxPERwqX$VSyGYOp80BS4fQOjx0KPz.',
-	password_max_age => '99999',
-	password_min_age => '0',
-	shell            => '/bin/zsh',
-	uid              => '1010',
-	managehome		 => true,
-}->	
+  ensure           => 'present',
+  gid              => '5001',
+  groups           => ['devops-course', 'docker', 'sudo'],
+  home             => "/home/${newuser}",
+  password         => '$1$VxPERwqX$VSyGYOp80BS4fQOjx0KPz.',
+  password_max_age => '99999',
+  password_min_age => '0',
+  shell            => '/bin/zsh',
+  uid              => '1010',
+  managehome       => true,
+} ->
 
 file { "/home/${newuser}":
-	ensure 		=> 'directory',
-	owner    	=> "${newuser}",
-    group     	=> 'devops-course',
-    require     => [ User["${newuser}"], Group['devops-course'], ],
-    recurse 	=> true
+  ensure  => 'directory',
+  owner   => "${newuser}",
+  group   => 'devops-course',
+  require => [ User["${newuser}"], Group['devops-course'], ],
+  recurse => true
 }
 
 user { 'devops' :
-	ensure           => 'present',
-	gid				 => '5001',
-	groups           => ['devops-course', 'docker', 'sudo'],
-	home             => "/home/devops",
-}->	
+  ensure => 'present',
+  gid    => '5001',
+  groups => ['devops-course', 'docker', 'sudo'],
+  home   => "/home/devops",
+} ->
 
 file { "/share":
-	ensure 		=> 'directory',
-	owner    	=> "devops",
-    group     	=> 'devops-course',
-    require     => [ User['devops'], Group['devops-course'], ],
-    recurse 	=> true,
-    mode    	=> '0770',
+  ensure  => 'directory',
+  owner   => "devops",
+  group   => 'devops-course',
+  require => [ User['devops'], Group['devops-course'], ],
+  recurse => true,
+  mode    => '0770',
 }
 
 # oh-my-zsh
@@ -57,54 +57,53 @@ vcsrepo { "/home/${newuser}/.oh-my-zsh":
 } ->
 
 file { "/home/${newuser}/.zshrc" :
-	source => ["/home/${newuser}/.oh-my-zsh/templates/zshrc.zsh-template"],
+  source => ["/home/${newuser}/.oh-my-zsh/templates/zshrc.zsh-template"],
 }
 
 # os packages
 package { ['vim', 'curl', 'wget', 'openssh-client', 'openssh-server', 'git-core', 'sl', 'fortune', 'cowsay']:
-    ensure => present,
+  ensure => present,
 }
 
 
 # nodejs install
 class { '::nodejs':
-	repo_url_suffix => 'node_4.x',
-}->
+  repo_url_suffix => 'node_4.x',
+} ->
 
 file { '/usr/bin/node':
-    ensure => 'link',
-    target => '/usr/bin/nodejs',
-    mode    => '0755',
-}->
+  ensure => 'link',
+  target => '/usr/bin/nodejs',
+  mode   => '0755',
+} ->
 
-package { ['bower', 'grunt-cli', 'npm-cache']:
-	ensure   => 'present',
-	provider => 'npm',
+package { ['bower', 'grunt-cli']:
+  ensure   => 'present',
+  provider => 'npm',
 }
 
 # Jenkins install
 include apt
-apt::ppa { 'ppa:openjdk-r/ppa': }->
+apt::ppa { 'ppa:openjdk-r/ppa': } ->
 package { ['openjdk-7-jdk']:
-    ensure 	=> present,
+  ensure  => present,
 }
 
 package { ['jenkins']:
-    ensure 	=> present,
-    require	=> [ Package['openjdk-7-jdk'], ],
-
+  ensure  => present,
+  require => [ Package['openjdk-7-jdk'], ],
 }
 
 user { 'jenkins' :
-	ensure           => 'present',
-	gid	         => '5001',
-	groups           => ['devops-course', 'docker'], #TODO add docker group lab 5b
+  ensure => 'present',
+  gid    => '5001',
+  groups => ['devops-course', 'docker'], #TODO add docker group lab 5b
 } ->
 
 git::config { 'user.email':
   value => 'jenkins@jenkins.com',
   user  => 'jenkins'
-} -> 
+} ->
 
 git::config { 'user.name':
   value => 'jenkins',
@@ -112,6 +111,6 @@ git::config { 'user.name':
 } ->
 
 exec { 'keygen':
-	command => "/bin/bash -c 'sudo ../scripts/keygen-exchange.sh'",
+  command => "/bin/bash -c 'sudo ../scripts/keygen-exchange.sh'",
 }
 
