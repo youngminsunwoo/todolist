@@ -94,7 +94,7 @@ package { ['jenkins']:
 
 user { 'jenkins' :
 	ensure           => 'present',
-	gid				 			 => '5001',
+	gid				 => '5001',
 	groups           => ['devops-course', 'docker'],
 }
 
