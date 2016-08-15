@@ -1,3 +1,6 @@
+# modules to include
+
+include git
 
 # puppet variables
 $newuser = 'donal'
@@ -94,14 +97,19 @@ package { ['jenkins']:
 
 user { 'jenkins' :
 	ensure           => 'present',
-	gid				 			 => '5001',
+	gid	         => '5001',
 	groups           => ['devops-course', 'docker'], #TODO add docker group lab 5b
 } ->
 
-exec { 'gitconfig':
-	command => "/usr/bin/git config --global user.email \"jenkins@jenkins.ci\" && /usr/bin/git config --global user.name \"jenkins\"",
-	user    => "jenkins"
-}
+git::config { 'user.email':
+  value => 'jenkins@jenkins.com',
+  user  => 'jenkins'
+} -> 
+
+git::config { 'user.name':
+  value => 'jenkins',
+  user  => 'jenkins'
+} ->
 
 exec { 'keygen':
 	command => "/bin/bash -c 'sudo ../scripts/keygen-exchange.sh'",
