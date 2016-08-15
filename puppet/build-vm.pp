@@ -94,8 +94,8 @@ package { ['jenkins']:
 
 user { 'jenkins' :
 	ensure           => 'present',
-	gid				 => '5001',
-	groups           => ['devops-course', 'docker'],
+	gid				 			 => '5001',
+	groups           => ['devops-course', 'docker'], #TODO add docker group lab 5b
 }
 
 exec { 'gitconfig':
