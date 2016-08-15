@@ -100,7 +100,8 @@ user { 'jenkins' :
 
 exec { 'gitconfig':
 	command => "/usr/bin/git config --global user.email \"jenkins@jenkins.ci\" && /usr/bin/git config --global user.name \"jenkins\"",
-	user    => "jenkins"
+	user    => "jenkins",
+	environment => ["HOME=/var/lib/jenkins"]
 }
 
 exec { 'keygen':
