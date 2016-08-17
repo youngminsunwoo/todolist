@@ -248,7 +248,8 @@ label[for='toggle-all'] {
   text-decoration: line-through;
 }
 
-.todo-list li .destroy {
+// base styles for the icons
+.todo-list li .icon {
   display: none;
   position: absolute;
   top: 0;
@@ -258,20 +259,36 @@ label[for='toggle-all'] {
   height: 40px;
   margin: auto 0;
   font-size: 30px;
-  color: #cc9a9a;
   margin-bottom: 11px;
   transition: color 0.2s ease-out;
+  font-family: FontAwesome;
+  font-size: 20px;
 }
 
-.todo-list li .destroy:hover {
+.todo-list li .high-priority.icon,.destroy.icon {
+  right: 45px;
+  color: #cc9a9a;
+}
+
+// darken when hovering over the icon
+.todo-list li .destroy:hover,.high-priority:hover {
   color: #af5b5e;
 }
 
-.todo-list li .destroy:after {
-  content: '×';
+.todo-list li .high-priority:hover {
+  color: #af5b5e;
 }
 
-.todo-list li:hover .destroy {
+// add the content of the destory icon
+.todo-list li .destroy:after {
+  content: '\f00d';
+}
+
+.todo-list li .high-priority:before {
+  content: '\f12a';
+}
+// make the icons appear when hovering over list element
+.todo-list li:hover .icon {
   display: block;
 }
 
