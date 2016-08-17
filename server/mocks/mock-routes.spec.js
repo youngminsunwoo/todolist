@@ -2,6 +2,7 @@
 
 var app = require('../app');
 var request = require('supertest');
+require('should');
 
 describe('GET /api/todos', function() {
 
