@@ -10,5 +10,15 @@
   "undef": true,
   "smarttabs": true,
   "asi": true,
-  "debug": true
+  "noempty": true,
+  "unused": true,
+  "debug": false,
+  "globals": {
+    "describe": true,
+    "it": true,
+    "before": true,
+    "beforeEach": true,
+    "after": true,
+    "afterEach": true
+  }
 }
