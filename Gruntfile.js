@@ -183,7 +183,6 @@ module.exports = function (grunt) {
           dot: true,
           src: [
             '.tmp',
-            'reports',
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*',
             '!<%= yeoman.dist %>/.openshift',
@@ -191,7 +190,10 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+      karmareports: 'reports/client/karma/**',
+      mochareports: 'reports/server/mocha/**',
+      lint: 'reports/{server,client}/jshint/**'
     },
 
     // Add vendor prefixed styles
@@ -685,6 +687,7 @@ module.exports = function (grunt) {
     environ = environ !== undefined ? environ : 'test';
     if (target === 'server') {
       return grunt.task.run([
+        'clean:mochareports',
         'env:all',
         'env:'+environ,
         'mochaTest'
@@ -694,6 +697,7 @@ module.exports = function (grunt) {
     else if (target === 'client') {
       return grunt.task.run([
         'clean:server',
+        'clean:karmareports',
         'env:all',
         'injector:less',
         'concurrent:test',
