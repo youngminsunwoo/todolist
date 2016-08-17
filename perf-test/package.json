@@ -1,0 +1,16 @@
+{
+  "name": "perf-test",
+  "version": "1.0.0",
+  "description": "module for running load tests in devopscourse",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bench-rest": "^1.2.0",
+    "fs-extra": "^0.30.0",
+    "request": "^2.74.0"
+  }
+}

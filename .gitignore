@@ -1,2 +1,4 @@
 .idea
 *iml
+perf-test/node_modules
+perf-test/*.csv
