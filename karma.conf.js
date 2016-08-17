@@ -76,6 +76,13 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false
+    singleRun: false,
+
+    // configure reporters
+    reporters: ['progress', 'junit'],
+    // the default configuration
+    junitReporter: {
+      outputDir: 'reports/client'
+    }
   });
 };

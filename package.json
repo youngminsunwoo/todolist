@@ -65,6 +65,7 @@
     "karma-html2js-preprocessor": "0.1.0",
     "karma-jade-preprocessor": "0.0.11",
     "karma-jasmine": "0.1.6",
+    "karma-junit-reporter": "1.1.0",
     "karma-ng-html2js-preprocessor": "0.1.2",
     "karma-ng-jade2js-preprocessor": "0.1.5",
     "karma-ng-scenario": "0.1.0",
