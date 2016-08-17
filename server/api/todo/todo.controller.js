@@ -5,6 +5,7 @@ var Todo = require('./todo.model');
 
 // Get list of todos
 exports.index = function(req, res) {
+  var biscuits
   Todo.find(function (err, todos) {
     if(err) { return handleError(res, err); }
     return res.status(200).json(todos);
