@@ -1,6 +1,5 @@
 'use strict';
 
-var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
 
@@ -68,7 +67,7 @@ describe('GET /api/todos/:id', function() {
     request(app)
       .get('/api/todos/' + 'abcdef0123456789ABCDEF01')
       .expect(404)
-      .end(function(err, res) {
+      .end(function(err) {
         if (err) return done(err);
         done();
       });
@@ -118,7 +117,7 @@ describe('PUT /api/todos/:id', function() {
       .put('/api/todos/' + 'abcdef0123456789ABCDEF01')
       .send({title: 'LOVE endpoint/server side testing!', completed: true})
       .expect(404)
-      .end(function(err, res) {
+      .end(function(err) {
         if (err) return done(err);
         done();
       });
@@ -154,7 +153,7 @@ describe('DELETE /api/todos/:id', function() {
     request(app)
       .delete('/api/todos/' + todoId)
       .expect(204)
-      .end(function(err, res) {
+      .end(function(err) {
         if (err) return done(err);
         done();
       });
@@ -163,7 +162,7 @@ describe('DELETE /api/todos/:id', function() {
     request(app)
       .delete('/api/todos/' + 'abcdef0123456789ABCDEF01')
       .expect(404)
-      .end(function(err, res) {
+      .end(function(err) {
         if (err) return done(err);
         done();
       });

@@ -1,7 +1,6 @@
 'use strict';
 
 var User = require('./user.model');
-var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
 
@@ -23,7 +22,7 @@ exports.index = function(req, res) {
 /**
  * Creates a new user
  */
-exports.create = function (req, res, next) {
+exports.create = function (req, res) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
   newUser.role = 'user';
@@ -52,7 +51,7 @@ exports.show = function (req, res, next) {
  * restriction: 'admin'
  */
 exports.destroy = function(req, res) {
-  User.findByIdAndRemove(req.params.id, function(err, user) {
+  User.findByIdAndRemove(req.params.id, function(err) {
     if(err) return res.status(500).send(err);
     return res.status(204).send('No Content');
   });
@@ -61,7 +60,7 @@ exports.destroy = function(req, res) {
 /**
  * Change a users password
  */
-exports.changePassword = function(req, res, next) {
+exports.changePassword = function(req, res) {
   var userId = req.user._id;
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
@@ -96,6 +95,6 @@ exports.me = function(req, res, next) {
 /**
  * Authentication callback
  */
-exports.authCallback = function(req, res, next) {
+exports.authCallback = function(req, res) {
   res.redirect('/');
 };

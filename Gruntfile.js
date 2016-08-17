@@ -136,9 +136,32 @@ module.exports = function (grunt) {
       },
       serverTest: {
         options: {
-          jshintrc: 'server/.jshintrc-spec'
+          jshintrc: 'server/.jshintrc'
         },
         src: ['server/**/*.spec.js']
+      },
+      ci_client: {
+        options: {
+          jshintrc: 'client/.jshintrc',
+          reporter: require('jshint-jenkins-checkstyle-reporter'),
+          reporterOutput: 'reports/client/linting/jshint-client.xml'
+        },
+        src: [
+          '<%= yeoman.client %>/{app,components}/**/*.js',
+          '<%= yeoman.client %>/{app,components}/**/*.spec.js',
+          '<%= yeoman.client %>/{app,components}/**/*.mock.js'
+        ]
+      },
+      ci_server: {
+        options: {
+          jshintrc: 'server/.jshintrc',
+          reporter: require('jshint-jenkins-checkstyle-reporter'),
+          reporterOutput: 'reports/server/linting/jshint-server.xml'
+        },
+        src: [
+          'server/**/*.js',
+          'server/**/*.spec.js'
+        ]
       },
       all: [
         '<%= yeoman.client %>/{app,components}/**/*.js',
@@ -160,6 +183,7 @@ module.exports = function (grunt) {
           dot: true,
           src: [
             '.tmp',
+            'reports',
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*',
             '!<%= yeoman.dist %>/.openshift',
