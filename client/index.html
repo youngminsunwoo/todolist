@@ -27,7 +27,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div ui-view=""></div>
+    <div ng-controller="MainCtrl" ng-include="'app/todos/todos.html'"></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -60,9 +60,7 @@
 
         <script src="app/app.js"></script>
           <!-- injector:js -->
-          <script src="app/main/main.controller.js"></script>
-          <script src="app/main/main.js"></script>
-          <script src="components/mongoose-error/mongoose-error.directive.js"></script>
+          <script src="app/todos/todos.controller.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
 </body>
