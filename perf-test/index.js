@@ -11,7 +11,7 @@ var show_nfr = 41;
 var create_nfr = 39;
 
 
-request('http://localhost:9000/api/todos/', function (error, response, body) {
+request(domain + route , function (error, response, body) {
   if (!error && response.statusCode == 200) {
     // console.log(JSON.parse(body)[0]._id);
     var mongoid = JSON.parse(body)[0]._id;
