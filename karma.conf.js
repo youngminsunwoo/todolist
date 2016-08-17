@@ -82,7 +82,7 @@ module.exports = function(config) {
     reporters: ['progress', 'junit'],
     // the default configuration
     junitReporter: {
-      outputDir: 'reports/client'
+      outputDir: 'reports/client/karma'
     }
   });
 };
