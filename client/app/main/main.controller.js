@@ -18,6 +18,7 @@ angular.module('todolistApp')
       if (!todo) {
         return;
       }
+      todo.completed = !todo.completed;
       $http.put('/api/todos/' + todo._id, todo);
     };
 

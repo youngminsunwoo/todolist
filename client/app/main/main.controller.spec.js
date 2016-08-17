@@ -8,6 +8,10 @@ describe('Controller: MainCtrl', function () {
   var MainCtrl,
     scope,
     $httpBackend,
+    mockTodos;
+
+  // Initialize the controller and a mock scope
+  beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
     mockTodos = [
       {
         title: 'Learn Some DevOps with Donal and Will',
@@ -23,9 +27,6 @@ describe('Controller: MainCtrl', function () {
         _id: 2
       }
     ];
-
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
     $httpBackend = _$httpBackend_;
     $httpBackend.expectGET('/api/todos')
       .respond(mockTodos);
@@ -63,11 +64,19 @@ describe('Controller: MainCtrl', function () {
   });
 
   describe('#toggleCompleted', function () {
-    it('should call PUT api with the new status of completed', function () {
-      mockTodos[1].completed = true; // angular will toggle completed for us
-      $httpBackend.expectPUT('/api/todos/' + 1, mockTodos[1]).respond({});
-      scope.toggleCompleted(mockTodos[1]);
-      $httpBackend.flush(); // This invokes the expectPUT from above, and will fail if not as expected.
+    it('should change the status of the todo to completed and call the todos PUT api with the new status', function() {
+      mockTodos[1].completed = true; // describes the environment
+      scope.toggleCompleted(mockTodos[1]); // does the actual execution
+      $httpBackend.expectPUT('/api/todos/' + 1, mockTodos[1]).respond({}); // mocks the response from the API and uses jasmine's BDD to the units behavior
+      $httpBackend.flush(); // required to make the mock PUT response above actually return
+      expect(scope.todos[1].completed).toBe(false); // asserts the result (angular scope is the data/model provided to the view)
+    });
+    it('should change the status of the todo to not completed and call the todos PUT api with the new status', function() {
+      mockTodos[1].completed = false; // describes the environment
+      scope.toggleCompleted(mockTodos[1]); // does the actual execution
+      $httpBackend.expectPUT('/api/todos/' + 1, mockTodos[1]).respond({}); // mocks the response from the API and uses jasmine's BDD to the units behavior
+      $httpBackend.flush(); // required to make the mock PUT response above actually return
+      expect(scope.todos[1].completed).toBe(true); // asserts the result (angular scope is the data/model provided to the view)
     });
   });
 

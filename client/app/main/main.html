@@ -15,7 +15,7 @@
         <li ng-repeat="todo in filterByStatus(todos) track by $index"
             ng-class="{completed: todo.completed, editing: todo == editedTodo}">
           <div class="view" class="todo">
-            <input class="toggle" type="checkbox" ng-model="todo.completed" ng-change="toggleCompleted(todo)">
+            <button ng-class="{'checked': todo.completed}" class="toggle" ng-click="toggleCompleted(todo)"></button>
             <label ng-dblclick="editTodo(todo)">{{todo.title}}</label>
             <button class="destroy icon" ng-click="removeTodo(todo)"></button>
           </div>
