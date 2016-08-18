@@ -4,13 +4,13 @@ angular.module('todolistApp')
   .controller('MainCtrl', function ($scope, $http) {
 
     $scope.addTodo = function () {
-      if ($scope.newTodo === '') {
-        return;
+      if (!$scope.edits.newTodo) {
+        return console.warn('cannot addTodo because no title provided');
       }
-      $http.post('/api/todos', {title: $scope.newTodo, completed: false}).success(function (todo) {
+      $http.post('/api/todos', {title: $scope.edits.newTodo, completed: false}).success(function (todo) {
         $scope.todos.push(todo);
       });
-      $scope.newTodo = '';
+      $scope.edits.newTodo = '';
     };
 
     $scope.toggleCompleted = function (todo) {
@@ -119,5 +119,6 @@ angular.module('todolistApp')
       $scope.todos = todos;
       $scope.loadingTodos = false;
     });
+    $scope.edits = {};
 
   });
