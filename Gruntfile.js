@@ -462,11 +462,20 @@ module.exports = function (grunt) {
     },
 
     mochaTest: {
-      options: {
-        reporter: 'spec'
+      terminal: {
+        options: {
+          reporter: 'spec'
+        },
+        src: ['server/**/*.spec.js']
       },
-      src: ['server/**/*.spec.js']
+      junit: {
+        options: {
+          reporter: 'mocha-junit-reporter'
+        },
+        src: ['server/**/*.spec.js']
+      },
     },
+
 
     protractor: {
       options: {
@@ -496,6 +505,9 @@ module.exports = function (grunt) {
       },
       prod: {
         NODE_ENV: 'production'
+      },
+      mochajunit: {
+        MOCHA_FILE: 'reports/server/mocha/test-results.xml'
       },
       all: localConfig
     },
@@ -690,11 +702,14 @@ module.exports = function (grunt) {
   grunt.registerTask('test', function(target, environ) {
     environ = environ !== undefined ? environ : 'test';
     if (target === 'server') {
+      if (environ !== 'test') {
+        grunt.task.run(['env:mochajunit']);
+      }
       return grunt.task.run([
         'clean:mochareports',
         'env:all',
         'env:'+environ,
-        'mochaTest'
+        'mochaTest:' + (environ === 'test' ? 'terminal' : 'junit')
       ]);
     }
 
