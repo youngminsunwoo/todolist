@@ -57,7 +57,8 @@ describe('Controller: MainCtrl', function () {
       $httpBackend.expectPOST('/api/todos').respond();
     });
     it('should add the todo', function () {
-      scope.addTodo(mockTodo(4, false));
+      scope.edits.newTodo = 'Learn some client side testing';
+      scope.addTodo();
       $httpBackend.flush();
       expect(scope.todos.length).toBe(4);
     });

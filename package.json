@@ -75,6 +75,8 @@
     "karma-phantomjs-launcher": "^1.0.1",
     "karma-requirejs": "0.2.6",
     "karma-script-launcher": "0.1.0",
+    "mocha": "3.0.2",
+    "mocha-junit-reporter": "1.12.0",
     "open": "0.0.5",
     "q": "^1.4.1",
     "request": "^2.74.0",
