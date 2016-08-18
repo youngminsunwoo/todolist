@@ -485,6 +485,9 @@ module.exports = function (grunt) {
       test: {
         NODE_ENV: 'test'
       },
+      dev: {
+        NODE_ENV: 'development'
+      },
       ci: {
         NODE_ENV: 'ci'
       },
@@ -666,6 +669,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'env:all',
+      'env:' + (target || 'dev'),
       'injector:less',
       'concurrent:server',
       'injector',
