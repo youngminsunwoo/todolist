@@ -711,6 +711,7 @@ module.exports = function (grunt) {
     }
     if (target === 'server') {
       return grunt.task.run([
+        'clean:mochareports',
         'env:all',
         'env:'+environ,
         'mochaTest:' + reporter
