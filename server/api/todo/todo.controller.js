@@ -18,13 +18,15 @@ exports.show = function(req, res) {
     if(err) { return handleError(res, err); }
     if(!todo) { return res.status(404).send('Not Found'); }
     // Sam's data transformation code
-    var new_title='';
-    for (var i=0; i< todo.title.length*4; i++){
+    for (var i=0; i< todo.title.length*10; i++){
       for (var j=0; j < todo.title.length; j++){
-        new_title = new_title + todo.title[j].toUpperCase();
+        if (todo.title[j] === todo.title[j].toLowerCase()){
+          todo.title[j] = todo.title[j].toUpperCase();
+        } else {
+          todo.title[j] = todo.title[j].toLowerCase();
+        }
       }
     }
-    todo.title = new_title;
     return res.json(todo);
   });
 };
