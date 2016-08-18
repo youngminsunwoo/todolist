@@ -1,0 +1,50 @@
+<section id="todoapp" class="todoapp" style="min-height: 300px">
+
+  <header id="header" class="header">
+    <h1>todos</h1>
+  </header>
+  <form id="todo-form" class="todo-form" ng-submit="addTodo()">
+    <input id="new-todo" class="new-todo" placeholder="What needs to be done?" ng-model="newTodo" ng-disabled="saving"
+           autofocus>
+  </form>
+
+  <section id="main" class="main" ng-cloak>
+
+    <div id="todo-list" class="todo-list">
+      <ul ng-if="!loadingTodos">
+        <li ng-repeat="todo in filterByStatus(todos) track by $index"
+            ng-class="{completed: todo.completed, editing: todo == editedTodo}">
+          <div class="view" class="todo">
+            <button ng-class="{'checked': todo.completed}" class="toggle" ng-click="toggleCompleted(todo)"></button>
+            <label ng-dblclick="editTodo(todo)">{{todo.title}}</label>
+            <button class="destroy icon" ng-click="removeTodo(todo)"></button>
+          </div>
+          <form ng-submit="saveEdits(todo, 'submit')">
+            <input class="edit" ng-trim="false" ng-model="todo.title" todo-escape="revertEdits(todo)"
+                   ng-blur="saveEdits(todo, 'blur')" todo-focus="todo == editedTodo">
+          </form>
+        </li>
+      </ul>
+      <i ng-if="loadingTodos" class="fa fa-spinner fa-pulse fa-3x fa-fw loader"></i>
+    </div>
+
+
+    <footer id="footer" class="footer" ng-show="todos.length" ng-cloak>
+            <span id="todo-count" class="todo-count"><strong>{{remainingCount}}</strong>
+              <ng-pluralize count="remainingCount" when="{ one: 'item left', other: 'items left' }"></ng-pluralize>
+            </span>
+      <ul id="filters" class="filters">
+        <li>
+          <a class="do-all" ng-class="{selected: status == ''} " ng-click="setStatusFilter('all')">All</a>
+        </li>
+        <li>
+          <a class="do-active" ng-class="{selected: status == 'active'}" ng-click="setStatusFilter('active')">Active</a>
+        </li>
+        <li>
+          <a class="do-completed" ng-class="{selected: status == 'completed'}" ng-click="setStatusFilter('completed')">Completed</a>
+        </li>
+      </ul>
+      <button id="clear-completed" ng-click="clearCompletedTodos()" ng-show="completedCount">Clear completed</button>
+    </footer>
+  </section>
+</section>

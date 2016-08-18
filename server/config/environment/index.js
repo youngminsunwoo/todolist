@@ -25,9 +25,6 @@ var all = {
     session: 'todolist-secret'
   },
 
-  // List of user roles
-  userRoles: ['guest', 'user', 'admin'],
-
   // MongoDB connection options
   mongo: {
     options: {
