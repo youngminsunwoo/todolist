@@ -276,11 +276,11 @@ label[for='toggle-all'] {
 }
 
 // darken when hovering over the icon
-.todo-list li .destroy:hover,.high-priority:hover {
+.todo-list li .destroy:hover, .todo-list li .high-priority:hover {
   color: #af5b5e;
 }
 
-.todo-list li .high-priority:hover {
+.todo-list li .high-priority:hover, .todo-list li .high-priority.checked {
   color: #af5b5e;
 }
 
@@ -293,7 +293,7 @@ label[for='toggle-all'] {
   content: '\f12a';
 }
 // make the icons appear when hovering over list element
-.todo-list li:hover .icon {
+.todo-list li:hover .icon, .todo-list .high-priority.checked {
   display: block;
 }
 
