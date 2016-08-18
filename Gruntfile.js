@@ -140,6 +140,17 @@ module.exports = function (grunt) {
         },
         src: ['server/**/*.spec.js']
       },
+      all: [
+        '<%= yeoman.client %>/{app,components}/**/*.js',
+        '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
+        '!<%= yeoman.client %>/{app,components}/**/*.mock.js'
+      ],
+      test: {
+        src: [
+          '<%= yeoman.client %>/{app,components}/**/*.spec.js',
+          '<%= yeoman.client %>/{app,components}/**/*.mock.js'
+        ]
+      },
       ci_client: {
         options: {
           jshintrc: 'client/.jshintrc',
@@ -161,17 +172,6 @@ module.exports = function (grunt) {
         src: [
           'server/**/*.js',
           'server/**/*.spec.js'
-        ]
-      },
-      all: [
-        '<%= yeoman.client %>/{app,components}/**/*.js',
-        '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
-        '!<%= yeoman.client %>/{app,components}/**/*.mock.js'
-      ],
-      test: {
-        src: [
-          '<%= yeoman.client %>/{app,components}/**/*.spec.js',
-          '<%= yeoman.client %>/{app,components}/**/*.mock.js'
         ]
       }
     },
