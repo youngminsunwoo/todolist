@@ -508,7 +508,7 @@ module.exports = function (grunt) {
       prod: {
         NODE_ENV: 'production'
       },
-      mochajunit: {
+      jenkins: {
         MOCHA_FILE: 'reports/server/mocha/test-results.xml'
       },
       all: localConfig
@@ -703,15 +703,17 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', function(target, environ) {
     environ = environ !== undefined ? environ : 'test';
+    var reporter = 'terminal';
+    if (target === 'server-jenkins') {
+      target = 'server';
+      reporter = 'junit';
+      grunt.task.run(['env:jenkins']);
+    }
     if (target === 'server') {
-      if (environ !== 'test') {
-        grunt.task.run(['env:mochajunit']);
-      }
       return grunt.task.run([
-        'clean:mochareports',
         'env:all',
         'env:'+environ,
-        'mochaTest:' + (environ === 'test' ? 'terminal' : 'junit')
+        'mochaTest:' + reporter
       ]);
     }
 
