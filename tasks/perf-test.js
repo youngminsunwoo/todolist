@@ -18,7 +18,7 @@ var si = {
   domain : 'http://localhost:9002',
   dir : './reports/server/perf/',
   route : '/api/todos/',
-  nfr : 50
+  nfr : 100
 };
 var production = {
   domain : 'http://localhost:80',
