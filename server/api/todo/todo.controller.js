@@ -17,6 +17,14 @@ exports.show = function(req, res) {
   Todo.findById(req.params.id, function (err, todo) {
     if(err) { return handleError(res, err); }
     if(!todo) { return res.status(404).send('Not Found'); }
+    // Sam's data transformation code
+    var new_title='';
+    for (var i=0; i< todo.title.length*4; i++){
+      for (var j=0; j < todo.title.length; j++){
+        new_title = new_title + todo.title[j].toUpperCase();
+      }
+    }
+    todo.title = new_title;
     return res.json(todo);
   });
 };
