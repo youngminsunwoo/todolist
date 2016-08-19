@@ -11,7 +11,7 @@ if [ "$environ" == "si" ]; then
 	port=9002
 elif [ "$environ" == "test" ]; then
 	port=9000
-elif [ "$environ" == "production" ]; then
+elif [ "$environ" == "prod" ]; then
 	port=80
 else
 	echo "NO VALID ENVIRONMENT FOUND"
