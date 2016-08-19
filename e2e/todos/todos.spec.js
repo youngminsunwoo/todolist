@@ -20,7 +20,7 @@ describe('Main View', function () {
     });
   });
 
-  describe('working with todos', function () {
+  describe('todos: ', function () {
     beforeEach(function removeAllTodos(done){
       page.todoEls.count().then(function (count) {
         for (var i=0; i<count; i++) {
