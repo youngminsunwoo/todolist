@@ -22,7 +22,7 @@ routerStub.get('/todos', function (req, res) {
   setTimeout(function () {
     return res.status(200).send([
       {"title": "Learn some stuff about Jenkins", "_id": mockMongoId(), "completed": true},
-      {"title": "Completed lab 1", "_id": mockMongoId(), "completed": false}
+      {"title": "Go for Coffee", "_id": mockMongoId(), "completed": false}
     ]);
   }, 650);
 });
