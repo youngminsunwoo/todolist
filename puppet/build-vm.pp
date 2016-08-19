@@ -60,12 +60,6 @@ file { "/home/${newuser}/.zshrc" :
   source => ["/home/${newuser}/.oh-my-zsh/templates/zshrc.zsh-template"],
 }
 
-# google chrome symlink
-file { '/usr/bin/google-chrome':
-  ensure => 'link',
-  target => '/usr/bin/google-chrome-stable'
-}
-
 # os packages
 package { ['vim', 'curl', 'wget', 'openssh-client', 'openssh-server', 'git-core', 'sl', 'fortune', 'cowsay']:
   ensure => present,
