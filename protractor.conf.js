@@ -21,6 +21,17 @@ exports.config = {
     'e2e/**/*.spec.js'
   ],
 
+  // setup junit reporter
+  onPrepare: function() {
+    var jasmineReporters = require('jasmine-reporters');
+    jasmine.getEnv().addReporter(
+      new jasmineReporters.JUnitXmlReporter({
+        savePath: 'reports/e2e',
+        consolidateAll: false
+      })
+    );
+  },
+
   // Patterns to exclude.
   exclude: [],
 
@@ -39,7 +50,7 @@ exports.config = {
   // Jasmine and Cucumber are fully supported as a test and assertion framework.
   // Mocha has limited beta support. You will need to include your own
   // assertion framework if working with mocha.
-  framework: 'jasmine',
+  framework: 'jasmine2',
 
   // ----- Options to be passed to minijasminenode -----
   //
