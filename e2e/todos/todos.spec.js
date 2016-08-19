@@ -1,5 +1,11 @@
 'use strict';
 
+var hasClass = function (element, cls) {
+  return element.getAttribute('class').then(function (classes) {
+    return classes.split(' ').indexOf(cls) !== -1;
+  });
+};
+
 describe('Main View', function () {
   var page;
 
@@ -21,16 +27,16 @@ describe('Main View', function () {
   });
 
   describe('todos: ', function () {
-    beforeEach(function removeAllTodos(done){
+    beforeEach(function removeAllTodos(done) {
       page.todoEls.count().then(function (count) {
-        for (var i=0; i<count; i++) {
+        for (var i = 0; i < count; i++) {
           // hover over the list element to get the destroy icon to appear
           browser.actions().mouseMove(page.todoEls.get(0)).perform();
           // angular removes the element each loop, hence using get(0) and not get(i)
           page.todoEls.get(0).element(by.css('.destroy')).click();
         }
-        });
-        done();
+      });
+      done();
     });
 
     describe('on adding new todo',function(){
@@ -43,16 +49,15 @@ describe('Main View', function () {
     });
 
     describe('on removing todo', function () {
-      var todoElToRemove;
+
       beforeEach(function () {
         page.newToDoInputEl.sendKeys('Learn another language');
         page.newToDoInputEl.sendKeys(protractor.Key.ENTER);
       });
 
       it('should remove the new todo', function (done) {
-
-        todoElToRemove = page.todoEls.get(0);
-        browser.actions().mouseMove(todoElToRemove).perform();
+        var todoElToRemove = page.todoEls.get(0);
+        browser.actions().mouseMove(todoElToRemove).perform(); // hover over the todos to make remove icon appear
         todoElToRemove.element(by.css('.destroy')).click().then(function(){
           expect(page.todoEls.count()).toBe(0);
           done();
@@ -116,6 +121,5 @@ describe('Main View', function () {
       });
     });
   });
-
 
 });
