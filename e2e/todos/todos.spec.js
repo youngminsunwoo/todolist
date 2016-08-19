@@ -4,8 +4,8 @@ describe('Main View', function () {
   var page;
 
   beforeEach(function () {
-    browser.get('/');
-    page = require('./main.po');
+    browser.get('http://localhost:9000/');
+    page = require('./todos.po');
   });
 
   describe('on page load', function () {
@@ -15,7 +15,7 @@ describe('Main View', function () {
 
     it('should display all the todos in the list', function () {
       expect(page.todoEls.count()).toBe(2);
-      expect(page.todoEls.get(0).getText()).toBe('Learn Some DevOps with Donal and Will');
+      expect(page.todoEls.get(0).getText()).toBe('Learn some stuff about Jenkins');
       expect(page.todoEls.get(1).getText()).toBe('Go for Coffee');
     });
   });
@@ -24,6 +24,7 @@ describe('Main View', function () {
     beforeEach(function removeAllTodos(done){
       page.todoEls.count().then(function (count) {
         for (var i=0; i<count; i++) {
+          // hover over the list element to get the destroy icon to appear
           browser.actions().mouseMove(page.todoEls.get(0)).perform();
           // angular removes the element each loop, hence using get(0) and not get(i)
           page.todoEls.get(0).element(by.css('.destroy')).click();

@@ -9,7 +9,7 @@ var Todo = require('../api/todo/todo.model');
 
 Todo.find({}).remove(function() {
   Todo.create({
-    title : 'Learn Some DevOps with Donal and Will',
+    title : 'Learn some stuff about Jenkins',
     completed: true
   }, {
     title : 'Go for Coffee',
