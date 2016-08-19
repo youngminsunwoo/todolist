@@ -3,6 +3,8 @@
 # # run :: traffic-light.sh <enviromnent> <function_name>
 # eg ./scripts/traffic-light.sh test check_mongo
 
+set -o errexit
+
 environ=${1}; shift
 
 if [ "$environ" == "si" ]; then
@@ -22,7 +24,7 @@ function check_mongo() {
 	echo "Collection size  = "$collection
 	if [ $collection -lt 1 ];then
 		echo "TEST FAILED"
-		exit $collection
+		exit 9999
 	fi
 }
 
