@@ -195,7 +195,8 @@ module.exports = function (grunt) {
       server: '.tmp',
       karmareports: 'reports/client/karma/**',
       mochareports: 'reports/server/mocha/**',
-      lint: 'reports/{server,client}/jshint/**'
+      lint: 'reports/{server,client}/jshint/**',
+      coverage: 'reports/{server,client}/coverage/**'
     },
 
     // Add vendor prefixed styles
@@ -466,16 +467,46 @@ module.exports = function (grunt) {
     mochaTest: {
       terminal: {
         options: {
-          reporter: 'spec'
+          reporter: 'spec',
+          require: 'tasks/blanket'
         },
         src: ['server/**/*.spec.js']
       },
       junit: {
         options: {
-          reporter: 'mocha-junit-reporter'
+          reporter: 'mocha-junit-reporter',
+          // require: require("blanket"),
+          require: 'tasks/blanket'
         },
         src: ['server/**/*.spec.js']
       },
+      html: {
+        options: {
+          // reporters are  ['html-cov', 'json-cov', 'travis-cov', 'mocha-lcov-reporter', 'mocha-cobertura-reporter'],
+          reporter: 'html-cov',
+          quiet: true,
+          captureFile: 'reports/server/coverage/cobertura-report.html'
+        },
+        src: ['server/**/*.spec.js']
+      },
+      cobertura: {
+        options: {
+          reporter: 'mocha-cobertura-reporter',
+          // use the quiet flag to suppress the mocha console output
+          quiet: true,
+          // specify a destination file to capture the mocha
+          // output (the quiet option does not suppress this)
+          captureFile: 'reports/server/coverage/cobertura-report.xml'
+        },
+        src: ['server/**/*.spec.js']
+      },
+      travis: {
+        options: {
+          reporter: 'travis-cov',
+          quiet: false
+        },
+        src: ['server/**/*.spec.js']
+      }
     },
 
 
@@ -704,17 +735,22 @@ module.exports = function (grunt) {
   grunt.registerTask('test', function(target, environ) {
     environ = environ !== undefined ? environ : 'test';
     var reporter = 'terminal';
+    var coverage = 'travis';
     if (target === 'server-jenkins') {
       target = 'server';
       reporter = 'junit';
+      coverage = 'cobertura';
       grunt.task.run(['env:jenkins']);
     }
     if (target === 'server') {
       return grunt.task.run([
         'clean:mochareports',
+        'clean:coverage',
         'env:all',
         'env:'+environ,
-        'mochaTest:' + reporter
+        'mochaTest:' + reporter,
+        'mochaTest:' + 'html',
+        'mochaTest:' + coverage
       ]);
     }
 
