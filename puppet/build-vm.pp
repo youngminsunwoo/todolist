@@ -61,7 +61,7 @@ file { "/home/${newuser}/.zshrc" :
 }
 
 # os packages
-package { ['vim', 'curl', 'wget', 'openssh-client', 'openssh-server', 'git-core', 'sl', 'fortune', 'cowsay']:
+package { ['vim', 'curl', 'wget', 'openssh-client', 'openssh-server', 'git-core', 'sl', 'fortune', 'cowsay', 'pcp', 'pcp-webapi']:
   ensure => present,
 }
 
