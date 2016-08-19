@@ -7,5 +7,6 @@ module.exports = {
   mongo: {
     uri: 'mongodb://mongo.server/todolist-si'
   },
-  seedDB: true
+  seedDB: true,
+  port: 9002
 };

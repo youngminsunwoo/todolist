@@ -10,5 +10,6 @@ module.exports = {
   mocks: {
     api: true
   },
-  seedDB: true
+  seedDB: true,
+  port: 9001
 }
