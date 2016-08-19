@@ -767,7 +767,7 @@ module.exports = function (grunt) {
       ]);
     }
 
-    else if (target === 'e2e') {
+    else if (target === 'e2e' && environ === 'test') {
       return grunt.task.run([
         'clean:server',
         'env:all',
@@ -778,6 +778,12 @@ module.exports = function (grunt) {
         'wiredep',
         'autoprefixer',
         'express:dev',
+        'protractor'
+      ]);
+    } else if (target === 'e2e') {
+      return grunt.task.run([
+        'env:all',
+        'env:' + environ,
         'protractor'
       ]);
     }
