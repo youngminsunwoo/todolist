@@ -398,6 +398,7 @@ module.exports = function (grunt) {
           src: [
             'package.json',
             'Dockerfile',
+            'manifest.yml',
             'server/**/*'
           ]
         }]
