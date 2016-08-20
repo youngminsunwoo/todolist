@@ -4,7 +4,7 @@ applications:
   instances: 1
   domain: eu-gb.mybluemix.net
   name: donal-spring-todolist-ci
-  host: donal-spring-todolist-ci
+  command: node server/app.js
   disk_quota: 1024M
   env:
     NODE_ENV: ci
