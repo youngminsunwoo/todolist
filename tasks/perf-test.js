@@ -18,19 +18,19 @@ var test = {
   domain : 'http://localhost:9000',
   dir : './reports/server/perf/',
   route : '/api/todos/',
-  nfr : 30
+  nfr : 60
 };
 var si = {
   domain : 'http://localhost:9002',
   dir : './reports/server/perf/',
   route : '/api/todos/',
-  nfr : 30
+  nfr : 60
 };
 var production = {
   domain : 'http://localhost:80',
   dir : './reports/server/perf/',
   route : '/api/todos/',
-  nfr : 20
+  nfr : 50
 };
 
 var test_endpoint = function (flow, options) {
