@@ -175,6 +175,29 @@ module.exports = function (grunt) {
           'server/**/*.js',
           'server/**/*.spec.js'
         ]
+      },
+      bm_client: {
+        options: {
+          jshintrc: 'client/.jshintrc',
+          reporter: require('jshint-junit-reporter'),
+          reporterOutput: 'reports/client/linting/jshint-junit-client.xml'
+        },
+        src: [
+          '<%= yeoman.client %>/app/**/*.js',
+          '<%= yeoman.client %>/app/**/*.spec.js',
+          '<%= yeoman.client %>/app/**/*.mock.js'
+        ]
+      },
+      bm_server: {
+        options: {
+          jshintrc: 'server/.jshintrc',
+          reporter: require('jshint-junit-reporter'),
+          reporterOutput: 'reports/server/linting/jshint-junit-server.xml'
+        },
+        src: [
+          'server/**/*.js',
+          'server/**/*.spec.js'
+        ]
       }
     },
 
