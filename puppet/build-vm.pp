@@ -33,12 +33,20 @@ file { "/home/${newuser}":
   recurse => true
 }
 
+file { ["/home/${newuser}/", "/home/devops"]:
+  ensure  => 'directory',
+  group   => 'devops-course',
+  require => [ User["${newuser}"], User["devops"], Group['devops-course'], ],
+  recurse => true,
+  mode    => '0775'
+}
+
 user { 'devops' :
   ensure => 'present',
   gid    => '5001',
   groups => ['docker', 'sudo'],
   home   => "/home/devops"
-} ->
+}
 
 file { "/share":
   ensure  => 'directory',
