@@ -76,7 +76,7 @@ file { '/usr/bin/node':
   mode   => '0755',
 } ->
 
-package { ['bower', 'grunt-cli', 'http-server']:
+package { ['bower', 'grunt-cli', 'http-server', 'phantomjs']:
   ensure   => 'present',
   provider => 'npm',
 }
