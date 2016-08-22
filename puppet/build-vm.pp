@@ -33,7 +33,7 @@ file { "/home/${newuser}":
   recurse => true
 }
 
-file { ["/home/${newuser}/", "/home/devops"]:
+file { ["/home/${newuser}/Desktop", "/home/devops/Desktop"]:
   ensure  => 'directory',
   group   => 'devops-course',
   require => [ User["${newuser}"], User["devops"], Group['devops-course'], ],
