@@ -45,8 +45,7 @@ file { "/share":
   owner   => "devops",
   group   => 'devops-course',
   require => [ User['devops'], Group['devops-course'], ],
-  recurse => true,
-  mode    => '0770',
+  recurse => true
 }
 
 # oh-my-zsh
@@ -86,7 +85,7 @@ file { '/usr/bin/node':
   mode   => '0755',
 } ->
 
-package { ['bower', 'grunt-cli', 'http-server']:
+package { ['bower', 'grunt-cli', 'http-server', 'phantomjs']:
   ensure   => 'present',
   provider => 'npm',
 }
