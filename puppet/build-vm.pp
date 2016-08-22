@@ -33,6 +33,13 @@ file { "/home/${newuser}":
   recurse => true
 }
 
+user { 'devops' :
+  ensure => 'present',
+  gid    => '5001',
+  groups => ['docker', 'sudo'],
+  home   => "/home/devops"
+} ->
+
 file { "/share":
   ensure  => 'directory',
   owner   => "devops",
