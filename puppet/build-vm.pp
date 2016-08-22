@@ -43,7 +43,6 @@ user { 'devops' :
 file { "/share":
   ensure  => 'directory',
   owner   => "devops",
-  group   => 'devops-course',
   require => [ User['devops'], Group['devops-course'], ],
   recurse => true
 }
