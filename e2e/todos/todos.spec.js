@@ -10,7 +10,7 @@ describe('Main View', function () {
   var page;
 
   beforeEach(function () {
-    browser.get('http://localhost:9000/');
+    browser.get('/');
     page = require('./todos.po');
   });
 
