@@ -106,7 +106,7 @@ package { 'phantomjs':
 user { 'jenkins' :
   ensure => 'present',
   gid    => '5001',
-  groups => ['devops-course', 'docker'], #TODO add docker group lab 5b
+  groups => ['devops-course'],
 } ->
 
 git::config { 'user.email':
