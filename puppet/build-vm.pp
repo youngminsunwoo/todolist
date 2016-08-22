@@ -17,7 +17,7 @@ user { "${newuser}" :
   gid              => '5001',
   groups           => ['docker', 'sudo'],
   home             => "/home/${newuser}",
-  password         => '$1$VxPERwqX$VSyGYOp80BS4fQOjx0KPz.',
+  password         => 'you.encryted.here', # note this is NOT your plain text password, use openssl generator as per instructions
   password_max_age => '99999',
   password_min_age => '0',
   shell            => '/bin/zsh',
