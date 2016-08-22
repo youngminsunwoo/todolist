@@ -74,20 +74,11 @@ exec {'install guest additions':
 user { 'jenkins' :
   ensure => 'present',
   gid    => '5001',
-  groups => ['devops-course', 'docker']
-} ->
-
-git::config { 'user.email':
-  value => 'jenkins@jenkins.com',
-  user  => 'jenkins'
-} ->
-
-git::config { 'user.name':
-  value => 'jenkins',
-  user  => 'jenkins'
-} ->
+  groups => ['devops-course', 'docker'],
+}
 
 exec { 'keygen':
   command => "/bin/bash -c 'sudo ../scripts/keygen-exchange.sh'",
+  require => User["jenkins"]
 }
 
