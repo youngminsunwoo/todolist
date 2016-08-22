@@ -3,7 +3,7 @@
 include git
 
 # puppet variables
-$newuser = 'donal'
+$newuser = 'your.username.here'
 
 
 # new user and group for attendee
