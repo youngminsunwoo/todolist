@@ -551,6 +551,14 @@ module.exports = function (grunt) {
             browser: 'phantomjs'
           }
         }
+      },
+      smoke: {
+        options: {
+          args: {
+            browser: 'phantomjs'
+          },
+          configFile: 'protractor-smoke.conf.js'
+        }
       }
     },
 
@@ -825,6 +833,13 @@ module.exports = function (grunt) {
         'env:all',
         'env:' + environ,
         'protractor:phantom'
+      ]);
+    }
+    else if (target === 'smoke') {
+      return grunt.task.run([
+        'env:all',
+        'env:' + environ,
+        'protractor:smoke'
       ]);
     }
 
