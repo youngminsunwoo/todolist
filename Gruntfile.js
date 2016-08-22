@@ -765,6 +765,11 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', function(target, environ) {
     environ = environ !== undefined ? environ : 'test';
+    var usePhantom = false;
+    if (environ === 'phantom') {
+      environ = 'test';
+      usePhantom = true;
+    }
     var reporter = 'terminal';
     var coverage = 'travis';
     if (target === 'server-jenkins') {
@@ -799,7 +804,7 @@ module.exports = function (grunt) {
     }
 
     else if (target === 'e2e' && environ === 'test') {
-      return grunt.task.run([
+      grunt.task.run([
         'clean:server',
         'env:all',
         'env:' + (environ || 'test'),
@@ -808,9 +813,13 @@ module.exports = function (grunt) {
         'injector',
         'wiredep',
         'autoprefixer',
-        'express:dev',
-        'protractor:chrome'
+        'express:dev'
       ]);
+      if (usePhantom) {
+        return grunt.task.run(['protractor:phantom']);
+      } else {
+        return grunt.task.run(['protractor:chrome']);
+      }
     } else if (target === 'e2e') {
       return grunt.task.run([
         'env:all',
