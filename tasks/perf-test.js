@@ -12,19 +12,25 @@ var Q = require('q');
 
 var options = {
   limit: 10,     // concurrent connections
-  iterations: 1000  // number of iterations to perform
+  iterations: 10000  // number of iterations to perform
+};
+var test = {
+  domain : 'http://localhost:9000',
+  dir : './reports/server/perf/',
+  route : '/api/todos/',
+  nfr : 60
 };
 var si = {
   domain : 'http://localhost:9002',
   dir : './reports/server/perf/',
   route : '/api/todos/',
-  nfr : 100
+  nfr : 60
 };
 var production = {
   domain : 'http://localhost:80',
   dir : './reports/server/perf/',
   route : '/api/todos/',
-  nfr : 32
+  nfr : 50
 };
 
 var test_endpoint = function (flow, options) {
@@ -55,39 +61,47 @@ var test_endpoint = function (flow, options) {
 
 
 module.exports = function () {
-  grunt.task.registerTask('perf-test', 'Runs the performance tests against the target env', function(target) {
-    if (target === undefined){
-      grunt.log.error('Required param not set - use grunt perf-test\:\<target\>');
+  grunt.task.registerTask('perf-test', 'Runs the performance tests against the target env', function(target, api) {
+    if (target === undefined || api === undefined){
+      grunt.log.error('Required param not set - use grunt perf-test\:\<target\>\:\<api\>');
       process.exit(9999)
     } else {
       var done = this.async();
-      var create, show;
+      var create = {
+        filename: 'create',
+        env: {},
+        main: [{
+          post: si.domain + si.route,
+          json: {
+            title: 'Run perf-test',
+            completed: false
+          }
+        }]
+      };
+
+      var show = {
+        filename: 'show',
+        env: {},
+        main: [{
+          get: si.domain + si.route
+        }]
+      };
+
       if (target === 'si') {
-
-        create = {
-          filename: 'create',
-          env: si,
-          main: [{
-            post: si.domain + si.route,
-            json: {
-              title: 'Run perf-test',
-              completed: false
-            }
-          }]
-        };
-
-        show = {
-          filename: 'show',
-          env: si,
-          main: [{
-            get: si.domain + si.route
-          }]
-        };
-      } else if (target === 'production') {
-
+        show.env = si;
+        create.env = si;
+      }
+      else if (target === 'production') {
+        show.env = production;
+        create.env = production;
+      }
+      else if (target === 'test') {
+        show.env = test;
+        create.env = test;
       } else {
-        grunt.log.error('Invalid target - ' + target)
+        grunt.log.error('Invalid target - ' + target);
         done();
+        process.exit(999)
       }
 
       grunt.log.ok("Perf tests running against " + target);
@@ -99,12 +113,14 @@ module.exports = function () {
       // console.log(show)
       request(show.env.domain + show.env.route, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          all_tests.push(test_endpoint(create, options));
-
-          var mongoid = JSON.parse(body)[0]._id;
-          show.main[0].get = si.domain + si.route + mongoid;
-          all_tests.push(test_endpoint(show, options));
-
+          if (api === 'create'){
+            all_tests.push(test_endpoint(create, options));
+          }
+          else {
+            var mongoid = JSON.parse(body)[0]._id;
+            show.main[0].get = si.domain + si.route + mongoid;
+            all_tests.push(test_endpoint(show, options));
+          }
 
           Q.all(all_tests).then(function (data) {
             grunt.log.ok(data);

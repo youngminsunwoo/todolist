@@ -175,6 +175,29 @@ module.exports = function (grunt) {
           'server/**/*.js',
           'server/**/*.spec.js'
         ]
+      },
+      bm_client: {
+        options: {
+          jshintrc: 'client/.jshintrc',
+          reporter: require('jshint-junit-reporter'),
+          reporterOutput: 'reports/client/linting/jshint-junit-client.xml'
+        },
+        src: [
+          '<%= yeoman.client %>/app/**/*.js',
+          '<%= yeoman.client %>/app/**/*.spec.js',
+          '<%= yeoman.client %>/app/**/*.mock.js'
+        ]
+      },
+      bm_server: {
+        options: {
+          jshintrc: 'server/.jshintrc',
+          reporter: require('jshint-junit-reporter'),
+          reporterOutput: 'reports/server/linting/jshint-junit-server.xml'
+        },
+        src: [
+          'server/**/*.js',
+          'server/**/*.spec.js'
+        ]
       }
     },
 
@@ -398,6 +421,7 @@ module.exports = function (grunt) {
           src: [
             'package.json',
             'Dockerfile',
+            'manifest.yml',
             'server/**/*'
           ]
         }]
@@ -672,7 +696,7 @@ module.exports = function (grunt) {
 
       grunt.log.ok('DEPLOYING ' + target_env + ' CONTAINER');
       if (target_env === 'ci'){
-        var rc = shell.exec('docker run -t -d --name todo-app-' + target_env + ' -p ' + ports[target_env]+ ':9000 --env NODE_ENV=' + target_env + ' todo-app:' + build_tag);
+        var rc = shell.exec('docker run -t -d --name todo-app-' + target_env + ' -p ' + ports[target_env]+ ':'+ports[target_env]+' --env NODE_ENV=' + target_env + ' todo-app:' + build_tag);
         if (rc > 0){
           grunt.log.error("DOCKER FAILURE")
         }
@@ -684,7 +708,7 @@ module.exports = function (grunt) {
           shell.exec('docker run --name devops-mongo -p 27017:27017 -d mongo');
         }
         var rc = shell.exec('docker run -t -d --name todo-app-' + target_env + ' --link devops-mongo:mongo.server -p '
-              + ports[target_env]+ ':9000 --env NODE_ENV=' + target_env + ' todo-app:'  + build_tag).code;
+            + ports[target_env]+ ':'+ports[target_env]+' --env NODE_ENV=' + target_env + ' todo-app:'  + build_tag).code;
         if (rc > 0){
           grunt.log.error("DOCKER FAILURE")
         }

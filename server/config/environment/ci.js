@@ -11,5 +11,5 @@ module.exports = {
     api: true
   },
   seedDB: true,
-  port: 9001
-}
+  port: process.env.PORT || 9001
+};
