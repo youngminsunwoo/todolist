@@ -83,6 +83,7 @@
     "mocha-junit-reporter": "1.12.0",
     "mocha-lcov-reporter": "1.2.0",
     "open": "0.0.5",
+    "phantomjs": "^2.1.7",
     "q": "1.4.1",
     "request": "2.74.0",
     "requirejs": "2.1.22",

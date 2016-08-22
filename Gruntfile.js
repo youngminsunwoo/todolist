@@ -544,6 +544,13 @@ module.exports = function (grunt) {
             browser: 'chrome'
           }
         }
+      },
+      phantom: {
+        options: {
+          args: {
+            browser: 'phantomjs'
+          }
+        }
       }
     },
 
@@ -802,13 +809,13 @@ module.exports = function (grunt) {
         'wiredep',
         'autoprefixer',
         'express:dev',
-        'protractor'
+        'protractor:chrome'
       ]);
     } else if (target === 'e2e') {
       return grunt.task.run([
         'env:all',
         'env:' + environ,
-        'protractor'
+        'protractor:phantom'
       ]);
     }
 
