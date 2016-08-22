@@ -102,16 +102,6 @@ package { 'phantomjs':
 }
 
 # Jenkins install
-include apt
-apt::ppa { 'ppa:openjdk-r/ppa': } ->
-package { ['openjdk-7-jdk']:
-  ensure  => present,
-}
-
-package { ['jenkins']:
-  ensure  => present,
-  require => [ Package['openjdk-7-jdk'], ],
-}
 
 user { 'jenkins' :
   ensure => 'present',
