@@ -78,16 +78,34 @@ exec {'install guest additions':
 class { '::nodejs':
   repo_url_suffix => 'node_4.x',
 } ->
-
 file { '/usr/bin/node':
   ensure => 'link',
   target => '/usr/bin/nodejs',
   mode   => '0755',
-} ->
+}
 
-package { ['bower', 'grunt-cli', 'http-server', 'phantomjs']:
-  ensure   => 'present',
+package { 'bower':
+  ensure   => '1.7.9',
   provider => 'npm',
+  require => File['/usr/bin/nodejs']
+}
+
+package { 'grunt-cli':
+  ensure   => 'v1.2.0',
+  provider => 'npm',
+  require => File['/usr/bin/nodejs']
+}
+
+package { 'http-server':
+  ensure   => '0.9.0',
+  provider => 'npm',
+  require => File['/usr/bin/nodejs']
+}
+
+package { 'phantomjs':
+  ensure   => '2.1.7',
+  provider => 'npm',
+  require => File['/usr/bin/nodejs']
 }
 
 # Jenkins install
