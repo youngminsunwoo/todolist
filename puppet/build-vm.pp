@@ -15,7 +15,7 @@ group { 'devops-course':
 user { "${newuser}" :
   ensure           => 'present',
   gid              => '5001',
-  groups           => ['docker', 'sudo'],
+  groups           => ['docker'],
   home             => "/home/${newuser}",
   password         => 'you.encryted.here', # note this is NOT your plain text password, use openssl generator as per instructions
   password_max_age => '99999',
