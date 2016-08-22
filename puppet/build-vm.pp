@@ -85,14 +85,3 @@ exec {'install guest additions':
 
 # Jenkins install...
 
-user { 'jenkins' :
-  ensure => 'present',
-  gid    => '5001',
-  groups => ['devops-course', 'docker'],
-}
-
-exec { 'keygen':
-  command => "/bin/bash -c 'sudo ../scripts/keygen-exchange.sh'",
-  require => User["jenkins"]
-}
-
