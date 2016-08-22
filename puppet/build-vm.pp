@@ -33,13 +33,6 @@ file { "/home/${newuser}":
   recurse => true
 }
 
-user { 'devops' :
-  ensure => 'present',
-  gid    => '5001',
-  groups => ['devops-course', 'docker', 'sudo'],
-  home   => "/home/devops",
-} ->
-
 file { "/share":
   ensure  => 'directory',
   owner   => "devops",
@@ -60,7 +53,7 @@ file { "/home/${newuser}/.zshrc" :
 }
 
 # os packages
-package { ['vim', 'curl', 'wget', 'openssh-client', 'openssh-server', 'git-core', 'sl', 'fortune', 'cowsay', 'pcp', 'pcp-webapi']:
+package { ['vim', 'curl', 'wget', 'openssh-client', 'openssh-server', 'git-core']:
   ensure => present,
 }
 
