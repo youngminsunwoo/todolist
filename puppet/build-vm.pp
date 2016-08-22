@@ -67,46 +67,14 @@ exec {'install guest additions':
   creates => "/share/.puppet-breadcrumbs/install-guest-additions"
 }
 
-# nodejs install
-class { '::nodejs':
-  repo_url_suffix => 'node_4.x',
-} ->
-file { '/usr/bin/node':
-  ensure => 'link',
-  target => '/usr/bin/nodejs',
-  mode   => '0755',
-}
+# nodejs install...
 
-package { 'bower':
-  ensure   => '1.7.9',
-  provider => 'npm',
-  require => File['/usr/bin/nodejs']
-}
-
-package { 'grunt-cli':
-  ensure   => 'v1.2.0',
-  provider => 'npm',
-  require => File['/usr/bin/nodejs']
-}
-
-package { 'http-server':
-  ensure   => '0.9.0',
-  provider => 'npm',
-  require => File['/usr/bin/nodejs']
-}
-
-package { 'phantomjs':
-  ensure   => '2.1.7',
-  provider => 'npm',
-  require => File['/usr/bin/nodejs']
-}
-
-# Jenkins install
+# Jenkins install...
 
 user { 'jenkins' :
   ensure => 'present',
   gid    => '5001',
-  groups => ['devops-course'],
+  groups => ['devops-course', 'docker']
 } ->
 
 git::config { 'user.email':
