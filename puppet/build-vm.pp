@@ -45,8 +45,7 @@ file { "/share":
   owner   => "devops",
   group   => 'devops-course',
   require => [ User['devops'], Group['devops-course'], ],
-  recurse => true,
-  mode    => '0770',
+  recurse => true
 }
 
 # oh-my-zsh
