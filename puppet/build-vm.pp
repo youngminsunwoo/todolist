@@ -15,7 +15,7 @@ group { 'devops-course':
 user { "${newuser}" :
   ensure           => 'present',
   gid              => '5001',
-  groups           => ['devops-course', 'docker', 'sudo'],
+  groups           => ['docker', 'sudo'],
   home             => "/home/${newuser}",
   password         => '$1$VxPERwqX$VSyGYOp80BS4fQOjx0KPz.',
   password_max_age => '99999',
