@@ -75,7 +75,6 @@
     "karma-ng-html2js-preprocessor": "0.1.2",
     "karma-ng-jade2js-preprocessor": "0.1.5",
     "karma-ng-scenario": "0.1.0",
-    "karma-phantomjs-launcher": "1.0.0",
     "karma-requirejs": "0.2.6",
     "karma-script-launcher": "0.1.0",
     "mocha": "3.0.2",
