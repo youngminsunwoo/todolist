@@ -697,7 +697,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('deploy', 'deploy the node js app to a docker container and start it in the correct mode', function(target_env, build_tag) {
-    grunt.log.in('this task must run on a host that has the Docker Daemon running on it');
+    grunt.log.ok('this task must run on a host that has the Docker Daemon running on it');
     var ports = {
       ci: '9001',
       si: '9002',
