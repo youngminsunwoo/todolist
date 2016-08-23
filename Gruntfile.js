@@ -687,15 +687,17 @@ module.exports = function (grunt) {
   grunt.registerTask('build-image', 'Build the image', function(imageId) {
     var shell = require("shelljs");
     grunt.log.ok('BUILDING IMAGE');
-    if (!imageId) grunt.log.error('must supply an imageId to build');
+    if (!imageId) {
+      grunt.fail.warn('must supply an imageId to build');
+    }
     var rc = shell.exec('docker build -t todolist:' + imageId + ' -f ./dist/Dockerfile ./dist').code;
     if (rc > 0){
-      grunt.log.error("DOCKER FAILURE")
+      grunt.fail.warn("DOCKER FAILURE")
     }
   });
 
   grunt.registerTask('deploy', 'deploy the node js app to a docker container and start it in the correct mode', function(target_env, build_tag) {
-    grunt.log.ok('this task must run on a host that has the Docker Daemon running on it');
+    grunt.log.in('this task must run on a host that has the Docker Daemon running on it');
     var ports = {
       ci: '9001',
       si: '9002',
@@ -703,7 +705,7 @@ module.exports = function (grunt) {
     };
 
     if (target_env === undefined || build_tag === undefined){
-      grunt.log.error('Required param not set - use grunt deploy\:\<target\>\:\<tag\>');
+      grunt.fail.warn('Required param not set - use grunt deploy\:\<target\>\:\<tag\>');
     } else {
       var shell = require("shelljs");
       grunt.log.ok('STOPPING AND REMOVING EXISTING CONTAINERS');
@@ -713,7 +715,7 @@ module.exports = function (grunt) {
       if (target_env === 'ci'){
         var rc = shell.exec('docker run -t -d --name todolist-' + target_env + ' -p ' + ports[target_env]+ ':'+ports[target_env]+' --env NODE_ENV=' + target_env + ' todolist:' + build_tag);
         if (rc > 0){
-          grunt.log.error("DOCKER FAILURE")
+          grunt.fail.warn("DOCKER FAILURE")
         }
       } else {
         // ensure mongo is up
@@ -725,7 +727,7 @@ module.exports = function (grunt) {
         var rc = shell.exec('docker run -t -d --name todolist-' + target_env + ' --link devops-mongo:mongo.server -p '
             + ports[target_env]+ ':' + ports[target_env] + ' --env NODE_ENV=' + target_env + ' todolist:' + build_tag).code;
         if (rc > 0){
-          grunt.log.error("DOCKER FAILURE");
+          grunt.fail.warn("DOCKER FAILURE");
         }
       }
     }
