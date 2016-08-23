@@ -688,7 +688,7 @@ module.exports = function (grunt) {
     var shell = require("shelljs");
     grunt.log.ok('BUILDING IMAGE');
     if (!imageId) grunt.log.error('must supply an imageId to build');
-    var rc = shell.exec('docker build -t todo-app:' + imageId + ' -f ./dist/Dockerfile ./dist').code;
+    var rc = shell.exec('docker build -t todolist:' + imageId + ' -f ./dist/Dockerfile ./dist').code;
     if (rc > 0){
       grunt.log.error("DOCKER FAILURE")
     }
@@ -707,11 +707,11 @@ module.exports = function (grunt) {
     } else {
       var shell = require("shelljs");
       grunt.log.ok('STOPPING AND REMOVING EXISTING CONTAINERS');
-      shell.exec('docker stop todo-app-'+ target_env + ' && docker rm todo-app-'+ target_env);
+      shell.exec('docker stop todolist-'+ target_env + ' && docker rm todolist-'+ target_env);
 
       grunt.log.ok('DEPLOYING ' + target_env + ' CONTAINER');
       if (target_env === 'ci'){
-        var rc = shell.exec('docker run -t -d --name todo-app-' + target_env + ' -p ' + ports[target_env]+ ':'+ports[target_env]+' --env NODE_ENV=' + target_env + ' todo-app:' + build_tag);
+        var rc = shell.exec('docker run -t -d --name todolist-' + target_env + ' -p ' + ports[target_env]+ ':'+ports[target_env]+' --env NODE_ENV=' + target_env + ' todolist:' + build_tag);
         if (rc > 0){
           grunt.log.error("DOCKER FAILURE")
         }
@@ -722,8 +722,8 @@ module.exports = function (grunt) {
           grunt.log.ok('DEPLOYING Mongodb CONTAINER FIRST');
           shell.exec('docker run --name devops-mongo -p 27017:27017 -d mongo');
         }
-        var rc = shell.exec('docker run -t -d --name todo-app-' + target_env + ' --link devops-mongo:mongo.server -p '
-            + ports[target_env]+ ':'+ports[target_env]+' --env NODE_ENV=' + target_env + ' todo-app:'  + build_tag).code;
+        var rc = shell.exec('docker run -t -d --name todolist-' + target_env + ' --link devops-mongo:mongo.server -p '
+            + ports[target_env]+ ':'+ports[target_env]+' --env NODE_ENV=' + target_env + ' todolist:'  + build_tag).code;
         if (rc > 0){
           grunt.log.error("DOCKER FAILURE")
         }
