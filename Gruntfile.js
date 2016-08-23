@@ -723,9 +723,9 @@ module.exports = function (grunt) {
           shell.exec('docker run --name devops-mongo -p 27017:27017 -d mongo');
         }
         var rc = shell.exec('docker run -t -d --name todolist-' + target_env + ' --link devops-mongo:mongo.server -p '
-            + ports[target_env]+ ':'+ports[target_env]+' --env NODE_ENV=' + target_env + ' todolist:'  + build_tag).code;
+            + ports[target_env]+ ':' + ports[target_env] + ' --env NODE_ENV=' + target_env + ' todolist:' + build_tag).code;
         if (rc > 0){
-          grunt.log.error("DOCKER FAILURE")
+          grunt.log.error("DOCKER FAILURE");
         }
       }
     }
