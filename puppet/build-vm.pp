@@ -17,7 +17,7 @@ user { "${newuser}" :
   gid              => '5001',
   groups           => ['docker'],
   home             => "/home/${newuser}",
-  password         => 'you.encryted.here', # note this is NOT your plain text password, use openssl generator as per instructions
+  password         => 'your.encryted.password.here', # note this is NOT your plain text password, use openssl generator as per instructions
   password_max_age => '99999',
   password_min_age => '0',
   shell            => '/bin/zsh',
