@@ -7,11 +7,8 @@ package {'openjdk-7-jdk':
   require => Apt::Ppa['ppa:openjdk-r/ppa']
 }
 
-package {'jenkins':
-    ensure     => present,
-    require    => Package['openjdk-7-jdk'],
+# Add jenkins package here !!
 
-}
 
 user { 'jenkins' :
  ensure => 'present',
