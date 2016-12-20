@@ -23,13 +23,13 @@ docker rm todolist-${environ} && rc=$?
 echo "DOCKER STARTING CONTAINER " todolist-${environ}
 if [ "$environ" == "ci" ]; then
   port=9001
-  docker run -t -d --name todolist-${environ} -p ${port}:9000 --env NODE_ENV=${environ} todolist:${tag}
+  docker run -t -d --name todolist-${environ} -p ${port}:${port} --env NODE_ENV=${environ} todolist:${tag}
 elif [ "$environ" == "si" ]; then
   port=9002
-  docker run -t -d --name todolist-${environ} --link devops-mongo:mongo  -p ${port}:9000 --env NODE_ENV=${environ} todolist:${tag}  
+  docker run -t -d --name todolist-${environ} --link devops-mongo:mongo  -p ${port}:${port} --env NODE_ENV=${environ} todolist:${tag}  
 elif [ "$environ" == "production" ]; then
   port=80
-  docker run -t -d --name todolist-${environ} --link devops-mongo:mongo  -p ${port}:9000 --env NODE_ENV=${environ} todolist:${tag}  
+  docker run -t -d --name todolist-${environ} --link devops-mongo:mongo  -p ${port}:${port} --env NODE_ENV=${environ} todolist:${tag}  
 else 
   echo "ENV not set"
   exit 1;
