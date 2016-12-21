@@ -71,16 +71,6 @@ package { ['vim', 'curl', 'wget', 'openssh-client', 'openssh-server', 'git-core'
   ensure => present,
 }
 
-# guest additions
-package { 'virtualbox-guest-additions-iso':
-  ensure => present
-} ->
-
-exec {'install guest additions':
-  command => "/bin/bash -c 'sudo ../scripts/install-guest-additions.sh'",
-  creates => "/share/.puppet-breadcrumbs/install-guest-additions"
-}
-
 # nodejs install...
 
 # Jenkins install...
