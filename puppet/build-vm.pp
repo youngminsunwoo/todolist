@@ -12,7 +12,7 @@ group { 'devops-course':
   gid    => '5001',
 }
 
-user { "${newuser}" :
+user { $newuser :
   ensure           => 'present',
   gid              => '5001',
   groups           => ['docker'],
@@ -27,16 +27,16 @@ user { "${newuser}" :
 
 file { "/home/${newuser}":
   ensure  => 'directory',
-  owner   => "${newuser}",
+  owner   => $newuser,
   group   => 'devops-course',
-  require => [ User["${newuser}"], Group['devops-course'], ],
+  require => [ User[$newuser], Group['devops-course'], ],
   recurse => true
 }
 
-file { ["/home/${newuser}/Desktop", "/home/devops/Desktop"]:
+file { ["/home/${newuser}/Desktop", '/home/devops/Desktop']:
   ensure  => 'directory',
   group   => 'devops-course',
-  require => [ User["${newuser}"], User["devops"], Group['devops-course'], ],
+  require => [ User[$newuser], User['devops'], Group['devops-course'], ],
   recurse => true,
   mode    => '0775'
 }
@@ -45,12 +45,12 @@ user { 'devops' :
   ensure => 'present',
   gid    => '5001',
   groups => ['docker', 'sudo'],
-  home   => "/home/devops"
+  home   => '/home/devops'
 }
 
-file { "/share":
+file { '/share':
   ensure  => 'directory',
-  owner   => "devops",
+  owner   => 'devops',
   require => [ User['devops'], ],
   recurse => true
 }
@@ -74,4 +74,3 @@ package { ['vim', 'curl', 'wget', 'openssh-client', 'openssh-server', 'git-core'
 # nodejs install...
 
 # Jenkins install...
-
