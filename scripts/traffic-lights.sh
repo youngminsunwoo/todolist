@@ -21,9 +21,9 @@ fi
 
 function check_mongo() {
 	collection=`mongo --quiet mongo.server/todolist-${environ} --eval "printjson(db.todos.count())"`
-	echo "Collection size  = "$collection
+	echo "Collection size  = $collection"
 	if [ $collection -lt 1 ];then
-		echo "TEST FAILED"
+		echo "TEST FAILED - collection must contain at least 1 item. Has the seed job run?"
 		exit 9999
 	fi
 }
