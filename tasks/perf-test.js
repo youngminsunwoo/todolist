@@ -63,8 +63,7 @@ var test_endpoint = function (flow, options) {
 module.exports = function () {
   grunt.task.registerTask('perf-test', 'Runs the performance tests against the target env', function(target, api) {
     if (target === undefined || api === undefined){
-      grunt.log.error('Required param not set - use grunt perf-test\:\<target\>\:\<api\>');
-      process.exit(9999)
+      grunt.fail.fatal('Required param not set - use grunt perf-test\:\<target\>\:\<api\>');
     } else {
       var done = this.async();
       var create = {
@@ -99,9 +98,8 @@ module.exports = function () {
         show.env = test;
         create.env = test;
       } else {
-        grunt.log.error('Invalid target - ' + target);
+        grunt.fail.fatal('Invalid target - ' + target);
         done();
-        process.exit(999)
       }
 
       grunt.log.ok("Perf tests running against " + target);
@@ -112,7 +110,9 @@ module.exports = function () {
       // console.log(create)
       // console.log(show)
       request(show.env.domain + show.env.route, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
+        if (error) {
+          grunt.log.error(error);
+        } else if(response.statusCode == 200) {
           if (api === 'create'){
             all_tests.push(test_endpoint(create, options));
           }
@@ -125,17 +125,15 @@ module.exports = function () {
           Q.all(all_tests).then(function (data) {
             grunt.log.ok(data);
             if (data.indexOf(false) > -1){
-              grunt.log.error('FAILURE - NFR NOT ACHIEVED');
-              process.exit(9999)
+              grunt.fail.fatal('FAILURE - NFR NOT ACHIEVED');
             } else {
               grunt.log.ok('SUCCESS - All NFR ACHIEVED');
               return done();
             }
           });
+        } else {
+          grunt.fail.fatal('FAILURE: something bad happened... there was no error from mongo but the response code was not 200')
         }
-        else {
-          grunt.log.error('FAILURE - COULD NOT GET MONGOID');
-          process.exit(9999)        }
       });
     }
   });
