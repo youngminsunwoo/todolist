@@ -28,6 +28,6 @@ package { 'phantomjs':
 } ->
 
 file { ['/etc/profile.d/phantomjs.sh','/var/lib/jenkins/.profile']:
-  ensure  =>  present
+  ensure  =>  present,
   content =>  inline_template('export PHANTOMJS_BIN="/usr/bin/phantomjs"'),
 }
