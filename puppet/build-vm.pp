@@ -44,13 +44,14 @@ file { ["/home/${newuser}/Desktop", '/home/devops/Desktop']:
 user { 'devops' :
   ensure => 'present',
   gid    => '5001',
-  groups => ['docker', 'sudo'],
+  groups => ['devops-course', 'docker', 'sudo'],
   home   => '/home/devops'
-}
+} ->
 
 file { '/share':
   ensure  => 'directory',
   owner   => 'devops',
+  group   => 'devops-course',
   require => [ User['devops'], ],
   recurse => true
 }
@@ -67,7 +68,7 @@ file { "/home/${newuser}/.zshrc" :
 }
 
 # os packages
-package { ['vim', 'curl', 'wget', 'openssh-client', 'openssh-server', 'git-core']:
+package { ['vim', 'curl', 'wget', 'openssh-client', 'openssh-server', 'git-core', 'cowsay', 'sl', 'fortune']:
   ensure => present,
 }
 
