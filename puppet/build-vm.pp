@@ -3,7 +3,7 @@
 include git
 
 # puppet variables
-$newuser = 'your.username.here'
+$newuser = 'youngmin'
 
 
 # new user and group for attendee
@@ -15,9 +15,9 @@ group { 'devops-course':
 user { $newuser :
   ensure           => 'present',
   gid              => '5001',
-  groups           => ['docker'],
+  groups           => ['docker', 'devops-course', 'sudo'],
   home             => "/home/${newuser}",
-  password         => 'your.encryted.password.here', # note this is NOT your plain text password, use openssl generator as per instructions
+  password         => '$1$z8zmiDfC$SruevtKUNY7kxWI.2Jb5D.', # note this is NOT your plain text password, use openssl generator as per instructions
   password_max_age => '99999',
   password_min_age => '0',
   shell            => '/bin/zsh',
