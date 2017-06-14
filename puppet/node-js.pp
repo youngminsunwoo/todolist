@@ -9,6 +9,12 @@ file { '/usr/bin/node':
   mode   => '0755',
 }
 
+package { 'bower':
+  ensure  => '1.7.9',
+  provider  => 'npm',
+  require => File['/usr/bin/node']
+}
+
 package { 'grunt-cli':
   ensure   => '1.2.0',
   provider => 'npm',

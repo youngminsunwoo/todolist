@@ -5,6 +5,9 @@ include git
 #jenkins install...
 import 'jenkins-install.pp'
 
+#Node and node dependencies install...
+import 'node-js.pp'
+
 # puppet variables
 $newuser = 'youngmin'
 
