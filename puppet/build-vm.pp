@@ -2,6 +2,9 @@
 
 include git
 
+#jenkins install...
+import 'jenkins-install.pp'
+
 # puppet variables
 $newuser = 'youngmin'
 

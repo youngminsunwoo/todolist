@@ -8,7 +8,10 @@ package {'openjdk-7-jdk':
 }
 
 # Add jenkins package here !!
-
+package { ['jenkins']:
+    ensure  => present,
+    require => [ Package['openjdk-7-jdk'], ],
+}
 
 user { 'jenkins' :
     ensure => 'present',
