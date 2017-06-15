@@ -11,6 +11,7 @@
   "smarttabs": true,
   "asi": true,
   "noempty": true,
+  "unused": true,
   "debug": false,
   "globals": {
     "describe": true,
