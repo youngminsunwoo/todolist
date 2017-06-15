@@ -3,7 +3,7 @@
 var path = require('path');
 var _ = require('lodash');
 
-var config;
+//var config;
 // All configurations will extend these options
 // ============================================
 var all = {
