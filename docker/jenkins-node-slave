@@ -10,8 +10,10 @@ RUN apt-get install -y \
 	jq \
 	wget \
 	software-properties-common \
+	openssh-server \
+	git
 
-	
+
 RUN ln -sf /bin/bash /bin/sh
 
 #2. Setup the sshd
@@ -26,8 +28,8 @@ EXPOSE 22
 
 #3. Add user jenkins to the image
 # password is jenkins
-
-
+RUN useradd -p nkCV3qqOO7WNo -ms /bin/bash jenkins
+ENV JENKINS_HOME /home/jenkins
 RUN mkdir -p ${JENKINS_HOME}/.ssh && \
 	chown -R jenkins:jenkins ${JENKINS_HOME} && \
 	chmod 700 ${JENKINS_HOME}/.ssh
@@ -41,11 +43,14 @@ RUN chown -R jenkins:jenkins ${JENKINS_HOME}/.ssh/id_rsa && chmod 400 ${JENKINS_
 
 
 #5. Install nodejs and deps for builds
+RUN curl -sL https://deb.nodesource.com/setup_4.x | bash
+RUN apt-get install -y nodejs libfontconfig
+RUN npm install -g grunt-cli grunt bower npm-cache istanbul
 
 
-
-#6. Install Bluemix tools [ just incase ;) ] 
+#6. Install Bluemix tools [ just incase ;) ]
 RUN wget http://go-cli.s3-website-us-east-1.amazonaws.com/releases/v6.12.4/cf-cli_amd64.deb
 RUN dpkg -i cf-cli_amd64.deb
 
-#7. COMMAND 
+#7. COMMAND
+CMD ["/usr/sbin/sshd", "-D"]
