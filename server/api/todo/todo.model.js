@@ -5,7 +5,11 @@ var mongoose = require('mongoose'),
 
 var TodoSchema = new Schema({
   title: String,
-  completed: Boolean
+  completed: Boolean,
+  highPriority: {
+    type: Boolean,
+    required: false
+  }
 });
 
 module.exports = mongoose.model('Todo', TodoSchema);
