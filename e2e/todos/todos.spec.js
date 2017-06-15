@@ -66,6 +66,22 @@ describe('Main View', function () {
       });
     });
 
+    describe('on toggling todo priority ', function () {
+      beforeEach(function () {
+        page.newToDoInputEl.sendKeys('Write an e2e that tests togglePriority');
+        page.newToDoInputEl.sendKeys(protractor.Key.ENTER);
+      });
+      it('should change the priority to high and mark it with a high priority icon', function(done) {
+        var todoElToTogglePriority = page.todoEls.get(0);
+        browser.actions().mouseMove(todoElToTogglePriority).perform();
+        var highPriorityToggleEl = todoElToTogglePriority.element(by.css('.high-priority'));
+        highPriorityToggleEl.click().then(function(){
+          expect(hasClass(highPriorityToggleEl, 'checked')).toBe(true);
+          done();
+        });
+      });
+    });
+
     describe('on toggling todo complete status',function(){
       var incompleteTodoEl, completeTodoEl;
       beforeEach(function(){
