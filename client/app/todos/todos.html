@@ -17,7 +17,7 @@
           <div class="view" class="todo">
             <button ng-class="{'checked': todo.completed}" class="toggle" ng-click="toggleCompleted(todo)"></button>
             <label ng-dblclick="editTodo(todo)">{{todo.title}}</label>
-            <button class="high-priority icon"></button>
+            <button class="high-priority icon" ng-class="{'checked': todo.highPriority}" ng-click="togglePriority(todo)"></button>
             <button class="destroy icon" ng-click="removeTodo(todo)"></button>
           </div>
           <form ng-submit="saveEdits(todo, 'submit')">
