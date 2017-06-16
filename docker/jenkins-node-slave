@@ -29,11 +29,11 @@ EXPOSE 22
 
 #3. Add user jenkins to the image
 # password is jenkins
-RUN useradd -p nkCV3qqOO7WNo -ms /bin/bash jenkins
+RUN useradd -p knuFpwhgKfZHA -ms /bin/bash jenkins
 ENV JENKINS_HOME /home/jenkins
 RUN mkdir -p ${JENKINS_HOME}/.ssh && \
-	chown -R jenkins:jenkins ${JENKINS_HOME} && \
-	chmod 700 ${JENKINS_HOME}/.ssh
+	chown -R jenkins:jenkins ${JENKINS_HOME} #&& \
+	#chmod 700 ${JENKINS_HOME}/.ssh
 
 
 #4. ensure git config is setup
