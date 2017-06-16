@@ -11,7 +11,8 @@ RUN apt-get install -y \
 	wget \
 	software-properties-common \
 	openssh-server \
-	git
+	git \
+	openjdk-7-jre
 
 
 RUN ln -sf /bin/bash /bin/sh
